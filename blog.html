@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Blog &amp; Actualités | RIMAMAN - Moulin d’Or</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#ffdbc9",
+              "on-primary-fixed-variant": "#005225",
+              "surface-bright": "#fbf9f5",
+              "tertiary-container": "#ae602d",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-variant": "#e4e2de",
+              "surface-container-highest": "#e4e2de",
+              "on-secondary-fixed-variant": "#633f00",
+              "tertiary-fixed-dim": "#ffb68c",
+              "secondary": "#835500",
+              "outline": "#6d7b6d",
+              "on-tertiary-container": "#fffbff",
+              "on-background": "#1b1c1a",
+              "secondary-container": "#feae2c",
+              "tertiary": "#904917",
+              "primary-fixed": "#78fc9c",
+              "primary-fixed-dim": "#5adf82",
+              "primary-container": "#008740",
+              "on-tertiary-fixed": "#321200",
+              "inverse-on-surface": "#f2f0ed",
+              "on-secondary-container": "#6b4500",
+              "on-primary-fixed": "#00210b",
+              "surface-tint": "#006d33",
+              "on-surface": "#1b1c1a",
+              "on-surface-variant": "#3d4a3e",
+              "surface": "#fbf9f5",
+              "on-error-container": "#93000a",
+              "surface-container-high": "#eae8e4",
+              "on-primary-container": "#f7fff3",
+              "surface-dim": "#dbdad6",
+              "inverse-surface": "#30312e",
+              "on-secondary-fixed": "#291800",
+              "on-secondary": "#ffffff",
+              "background": "#fbf9f5",
+              "on-tertiary-fixed-variant": "#753401",
+              "secondary-fixed": "#ffddb4",
+              "outline-variant": "#bccabb",
+              "on-error": "#ffffff",
+              "inverse-primary": "#5adf82",
+              "error": "#ba1a1a",
+              "surface-container-low": "#f5f3ef",
+              "primary": "#006b32",
+              "surface-container": "#efeeea",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed-dim": "#ffb955",
+              "on-primary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .plus-jakarta-sans { font-family: 'Plus Jakarta Sans', sans-serif; }
+      .tonal-layering { background: linear-gradient(180deg, rgba(251, 249, 245, 0) 0%, rgba(245, 243, 239, 1) 100%); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dark/80 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-black text-emerald-800 dark:text-emerald-400 tracking-tighter">RIMAMAN</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-slate-600 dark:text-slate-400 hover:text-emerald-600 transition-colors duration-300 plus-jakarta-sans font-bold text-sm tracking-wide" href="index.html">Accueil</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-emerald-600 transition-colors duration-300 plus-jakarta-sans font-bold text-sm tracking-wide" href="a-propos.html">À propos</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-emerald-600 transition-colors duration-300 plus-jakarta-sans font-bold text-sm tracking-wide" href="nos-farines.html">Nos Farines</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-emerald-600 transition-colors duration-300 plus-jakarta-sans font-bold text-sm tracking-wide" href="recettes.html">Recettes</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-emerald-600 transition-colors duration-300 plus-jakarta-sans font-bold text-sm tracking-wide" href="ou-acheter.html">Où acheter</a>
+<a class="text-emerald-700 dark:text-emerald-400 border-b-2 border-emerald-600 pb-1 plus-jakarta-sans font-bold text-sm tracking-wide" href="blog.html" aria-current="page">Blog</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-emerald-600 transition-colors duration-300 plus-jakarta-sans font-bold text-sm tracking-wide" href="contact.html">Contact</a>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center gap-2 text-emerald-700 dark:text-emerald-500 font-bold text-sm">
+<span class="material-symbols-outlined">search</span>
+<span class="material-symbols-outlined">shopping_cart</span>
+</div>
+<button class="bg-secondary-container text-on-secondary-container px-6 py-2 rounded-full font-bold text-sm hover:scale-105 active:scale-95 transition-all shadow-md">
+                    WhatsApp
+                </button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-24 max-w-7xl mx-auto px-6 md:px-12">
+<!-- Editorial Header -->
+<header class="mb-20">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+<div class="max-w-2xl">
+<span class="text-primary font-bold tracking-widest text-sm uppercase mb-4 block">Le Magasine Culinaire</span>
+<h1 class="text-5xl md:text-7xl font-headline font-extrabold text-on-surface tracking-tighter leading-[0.9]">Blog &amp; Actualités <span class="text-primary">RIMAMAN</span></h1>
+<p class="mt-8 text-xl text-on-surface-variant leading-relaxed">Découvrez l'univers du Moulin d'Or : nutrition, secrets de chefs et coulisses de notre production 100% Bio au Bénin.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-3 rounded-full border border-outline-variant hover:bg-surface-container-low transition-colors text-sm font-semibold">S'abonner</button>
+<button class="px-6 py-3 rounded-full bg-primary text-on-primary shadow-lg hover:shadow-xl transition-all text-sm font-semibold">Derniers articles</button>
+</div>
+</div>
+</header>
+<!-- Categories / Latest News Filter -->
+<section class="mb-16">
+<div class="flex flex-wrap gap-4 items-center">
+<span class="text-sm font-bold text-on-surface-variant mr-4">CATÉGORIES :</span>
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary text-sm font-bold shadow-md">Tout voir</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors text-sm font-medium">Nutrition et Bien-être</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors text-sm font-medium">Astuces cuisine</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors text-sm font-medium">Événements Moulin d'Or</button>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+<!-- Main Content: Article Grid -->
+<div class="lg:col-span-8">
+<div class="grid grid-cols-1 gap-16">
+<!-- Featured Article -->
+<article class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-xl aspect-[16/9] mb-8 shadow-sm">
+<img alt="Farine de maïs bio" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Close-up of golden artisan flour being sifted onto a rustic wooden table with soft morning light and floating dust particles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnBlomjsC_lddnUePE4oluU4uofKbidmdgLPkJPECSZN0ttiA1Xa04rwmGfQqqrHu47ZUtbTBWp95b_-Atglss9X4qRbpTX23mkFifwLnBEg6UBCAItYeghhHXmnV4o1S38b_s66ZgRTavMBMce-5VMJe9W3RwPfkWg5KYvd_RWqkWml96omp5MPZLvnVVMMRh4pc5eL7gDQmimXTT0okDBryY-gItnuVMHuG0tfynUQAfWJOI0svr4r9u8MonScKHL6bgS0cBf0M"/>
+<div class="absolute top-6 left-6 flex gap-2">
+<span class="bg-secondary text-on-secondary px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">Nutrition et Bien-être</span>
+</div>
+</div>
+<div class="flex items-center gap-4 mb-4 text-sm text-on-surface-variant font-medium">
+<time datetime="2023-10-24">24 Octobre 2023</time>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span>8 min de lecture</span>
+</div>
+<h2 class="text-3xl font-headline font-extrabold text-on-surface group-hover:text-primary transition-colors mb-4">Les bienfaits cachés de la Farine de Maïs Bio pour votre santé intestinale</h2>
+<p class="text-on-surface-variant leading-relaxed text-lg mb-6">Explorez comment nos procédés de mouture traditionnelle préservent les nutriments essentiels et les fibres de nos grains de maïs locaux, favorisant une digestion légère et naturelle...</p>
+<a class="inline-flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all" href="#">
+                            Lire l'article complet <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</article>
+<!-- Article Grid Secondary -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<!-- Post 2 -->
+<article class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-xl aspect-square mb-6 shadow-sm">
+<img alt="Pâtisseries béninoises" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Beautifully arranged West African pastries and breads on a golden platter with vibrant green leaves background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGVk0IkMAabHFY28baU36ten0ZDZ663vYGPNYAOTwiY3r8FcKv5QoJuRG_3Tc6idP271y2Fb-26JImRQJtA85nnt5NLWTqzBN6cPVDEX-6AMUQjdh8Eyg_b0ArhU4rmcgSc0iqsHgZzart9r4_JHK71BhtBjBCnxr3UNuTm-kn42x4OzWh095oUyhh7TKkhk8TUjogUr-D-pQ_gbQtJ0CPKOYOaxrCxJUO1v-R-wGePF_hC85pf3bcaQCB4NzTP1AzOuk3QUdT7sQ"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary text-on-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Astuces cuisine</span>
+</div>
+</div>
+<time class="text-xs text-on-surface-variant font-bold mb-2 block">18 Octobre 2023</time>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-3 group-hover:text-primary transition-colors">3 Secrets pour réussir vos beignets traditionnels à coup sûr</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3 leading-relaxed">Le dosage de l'eau et le choix de la mouture sont cruciaux. Nos experts partagent leurs techniques ancestrales pour un croustillant parfait.</p>
+</article>
+<!-- Post 3 -->
+<article class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-xl aspect-square mb-6 shadow-sm">
+<img alt="Marché local Bénin" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Aerial view of a vibrant colorful local market in Benin with people interacting and stalls full of grains" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqJmCv0ZFtLQYwqyK5auZ8Vvk6N0whCdgqXKfPg1K1oCS30HOvTvWyVApBkKR2xKjvB_qj2DKuKfjdEBmIIXPjUzK61hki2sn_3AQ39xNZV0VsoXkhDsRObrvRbE8x8ij4vDqt2bX2u8ViMlKn_tCisSwdMTnmItxUlI23HzitVClM8BiFeFYNsNspbiFcsoyHAOV_ckepG1O08R51zHQrxQmejcYL38vHyZUFV2aWGaqGXIK2FxjXKek0OvnXO0CTNLwd-JmJrL4"/>
+<div class="absolute top-4 left-4">
+<span class="bg-tertiary text-on-tertiary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Événements Moulin d'Or</span>
+</div>
+</div>
+<time class="text-xs text-on-surface-variant font-bold mb-2 block">12 Octobre 2023</time>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-3 group-hover:text-primary transition-colors">Retour sur notre journée "Portes Ouvertes" à Cotonou</h3>
+<p class="text-on-surface-variant text-sm line-clamp-3 leading-relaxed">Une rencontre inoubliable avec nos producteurs locaux et nos clients les plus fidèles autour d'une dégustation géante.</p>
+</article>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-20 flex justify-center gap-2">
+<button class="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container-high transition-colors font-bold">2</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container-high transition-colors font-bold">3</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Sidebar -->
+<aside class="lg:col-span-4 space-y-12">
+<!-- Search -->
+<div class="p-8 bg-surface-container-low rounded-2xl">
+<h4 class="font-headline font-bold text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">search</span> Chercher un article
+                    </h4>
+<div class="relative">
+<input class="w-full bg-surface border-none border-b-2 border-outline-variant focus:border-primary focus:ring-0 text-sm py-3 px-0" placeholder="Recettes, bienfaits, actualités..." type="text"/>
+</div>
+</div>
+<!-- Popular Posts -->
+<div>
+<h4 class="font-headline font-extrabold text-xl text-on-surface mb-8 border-l-4 border-secondary pl-4">Articles Populaires</h4>
+<div class="space-y-6">
+<div class="flex gap-4 group cursor-pointer">
+<div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden">
+<img alt="Bol de riz bio" class="w-full h-full object-cover group-hover:scale-110 transition-transform" data-alt="Minimalist top view of a steaming bowl of fluffy white rice on a matte black ceramic dish" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEPfYKGyDWFSJW7vayqBPJ675ehQiIpYfKdzSxvIQ0FceTWQn4G32rMa1JKRNaBhFO-r4-OpjIyL7IqshuE4RGWmGnnqWzalgmV2eAyNNYxAr-BIs1PCIAcMKYw2Em-mRG6EC9SfcLuG2YJ3i3xJ9arvNytfDmM-lhBBlpVpp7x7iOYCgmoOCoRcftiP3UL2auXu7KoP9qspp-NcUEIfwFp-x8Dq8KOv0FxQBG1iIf6ZCe7XGZ5vw0BFH1I-BJcbQizvp_OgGFSn0"/>
+</div>
+<div>
+<h5 class="font-bold text-sm text-on-surface group-hover:text-primary transition-colors leading-tight">Pourquoi choisir la farine de riz pour vos pâtisseries sans gluten ?</h5>
+<time class="text-[10px] text-on-surface-variant font-bold mt-1 block uppercase">Nutrition</time>
+</div>
+</div>
+<div class="flex gap-4 group cursor-pointer">
+<div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden">
+<img alt="Farine de manioc" class="w-full h-full object-cover group-hover:scale-110 transition-transform" data-alt="Artisanal glass jar filled with white cassava flour next to raw cassava roots on a dark textured background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMYEhYJRJFWpsQsIGtY_EJaqDtqihpIlJRpXxPkl6510bbU-1GXKUT8lzjtlfszenJVa1pcmzDQQDy0-l0au1HQM7REHWN3iRSVmcos10YP0iOSQzwt1PUzS5ocjfMmYx1zWuBisVsP4NWssBW5sbl_7puPdipK0fHbCt-D3anfdxMen1A35l01GnsVwzl1uHSXGkgyXBVfX6lipXEpThkB0W6FLaNSJfnrD4q63xbwYnNcxlP9uHqV0KYp3KVzinmSggEfZQtko8"/>
+</div>
+<div>
+<h5 class="font-bold text-sm text-on-surface group-hover:text-primary transition-colors leading-tight">Manioc : De la racine à la farine d'exception RIMAMAN</h5>
+<time class="text-[10px] text-on-surface-variant font-bold mt-1 block uppercase">Production</time>
+</div>
+</div>
+</div>
+</div>
+<!-- Instagram Feed Mockup -->
+<div class="p-1 text-center bg-white rounded-3xl shadow-sm overflow-hidden">
+<div class="p-6">
+<h4 class="font-headline font-bold text-on-surface mb-2">Suivez-nous sur Instagram</h4>
+<p class="text-xs text-on-surface-variant mb-6">@moulindor_rimaman</p>
+<div class="grid grid-cols-3 gap-2">
+<div class="aspect-square bg-surface-container-high rounded-md overflow-hidden"><img class="w-full h-full object-cover" data-alt="Close up of hands kneading dough in a light filled kitchen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOLx1aMx9cKfHEDBn_8xh7MOxUPnhyxIU6nE9V_HbdpnHvm3CHP4CQLzJNz7FCzOSFU-T5wCXjAgllt7BTOKlkRl88fcCCwCjtpTObQo-oD58V37e1u-SE9MybQjcZzf2K-HhfCGMe8GfoymWAgN94vAHpOBKvJGmsg-SIdVOP2dNr37ObnqA5iLrpUVbECyv0biRqTAjpcHyeoxAWn-n_rhvXu0GB_5iJQ7CpdgotVrWGGdHA4xiNi8DXPJWEcdbpEMrk-UGxDQg"/></div>
+<div class="aspect-square bg-surface-container-high rounded-md overflow-hidden"><img class="w-full h-full object-cover" data-alt="Tray of golden baked muffins with a dusting of flour" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuAY8c3VK3dHfuFj9SidDqOrrY0BuQLKB8SIZsUbcG0oAOJPoCgPKrpMvaTaIrTRQ7eItkVjuH4ZUHLqntpcdw55OuPPEPEOxaS_GFbwPTWsKOOx4XoDxNRToRu1PgTgEXzXOb8irQxZ27MLe2Z4_M9oozhf_lNpMrrhFc4jLco9WnaOoTqzEvABhGQMwK5OYW0uBVPjoPeQQkwzBaShFvMSejoVTERZcwerZyvrnAyXUaGImAYQyJ3GknOJ6N5n5EG9FD5-4dINE"/></div>
+<div class="aspect-square bg-surface-container-high rounded-md overflow-hidden"><img class="w-full h-full object-cover" data-alt="Field of tall green maize crops under a clear blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKze7pwIzrjGiyCk0dnUn1I985sxGk7ByCzEnioPtbwd27X3OnDYKgDKtCJEtcdso3wdh6L8kZMqWB4bdSfpZkDc9T30QCcluHtiu_Tzmb2JAsbuXuyV-Xq7ZokzbU28D_rNNB-i_DOPfA2WwVGazFDds-3BL6gtt6jRozbfgYXp8JJBmUMzQ0SYo9VCVwlig8BsKexR90zaMGkG5UhtvTXzfi078RNgI8kAw_tf_QBoSVyJfMnop8rvbhdQ0yxP38pH58yqaEd-Q"/></div>
+<div class="aspect-square bg-surface-container-high rounded-md overflow-hidden"><img class="w-full h-full object-cover" data-alt="Selection of different types of flours in small wooden bowls" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCg_sqPDJ_EQ5F9G9C2kQIAbaGKeCh400gW5-WRopz3ax4aeQVrQr27CuR1ndc_j_wZpDnjGh911UVpEqUQ-uo7bq6CqUA7t1YW_NmjIPogNVaQ1KmqQ1DGfAdoc_hNtS9ItudT5SodQvlMmE_3ZJVRrEVF5R8kgx9cQjG1HB-1GRWWWEKx67rNA_bksGWCad8w4PZYfZXvr4Z6sl4h5ZmJ0I2QMN-ypbt8NVxJ3PERkpIGyOQBnxddRhKeL26BNXq_rwzaT1fN-xE"/></div>
+<div class="aspect-square bg-surface-container-high rounded-md overflow-hidden"><img class="w-full h-full object-cover" data-alt="Artisanal bread loaf with a decorative score pattern on top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByvGd-DRiScEnxfDEn75oD_XVfRoF0uchyedreYOYHBoEw0ozO7iuVISE6YMEh52kYDxmmR_qZf3JfU1-mV-EBBnBuyVAh3c_lfRbbwDkmO97dfquG2fPbQmy11Arbu3Ilij9ui9d3VvcH7dnSMxmOpa7AcwBwTKrt6WGhhVVL-Vp978zTZMZVdT8Ad_g3Jy_kuuOjAVCaTXbPVVzFbBAJRSLhGbtGElR4SJOlFDRSW15hE_dzdhbP7ZuqpoaOvHsS_VvPmM-rIr4"/></div>
+<div class="aspect-square bg-surface-container-high rounded-md overflow-hidden"><img class="w-full h-full object-cover" data-alt="Smiling local African farmer holding a basket of fresh grain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_bvBIs0f1zed4mluIcSsdmoI0qTtoI9OT_lQu9sv_Tldf6_ET1ELE3hCLc77QH2U67ipDfeXDqA6Dun8LcI_LLmXaLgwH1yDx92WXGFWzPcr7t0-eYii2aMb_zl5NB8Huj7GKJsI8s8HF7aIteut1XZF6AS422UKej7e4iBHltJK9nnyR6dHB_dljuydIL5dcQAj_VXS7MDhgeLVrypqL9621Zcd4lX5wix72aA_cAM8Bq25yqACovYlGUBzgSopIbQlVUB_by6w"/></div>
+</div>
+<button class="w-full mt-6 py-3 rounded-xl border border-primary text-primary font-bold text-sm hover:bg-primary hover:text-on-primary transition-all">S'abonner @IG</button>
+</div>
+</div>
+<!-- Newsletter -->
+<div class="relative overflow-hidden bg-primary rounded-3xl p-8 text-on-primary">
+<div class="absolute -right-10 -bottom-10 w-40 h-40 bg-on-primary/10 rounded-full blur-2xl"></div>
+<h4 class="font-headline font-extrabold text-2xl mb-4 relative z-10 leading-tight">Recevez nos meilleures recettes par email</h4>
+<p class="text-on-primary/80 text-sm mb-6 relative z-10">Rejoignez notre communauté de passionnés de cuisine saine.</p>
+<input class="w-full bg-on-primary/10 border-on-primary/20 rounded-full py-3 px-6 placeholder:text-on-primary/50 text-sm focus:ring-secondary focus:border-secondary mb-4" placeholder="Votre email" type="email"/>
+<button class="w-full py-3 rounded-full bg-secondary text-on-secondary font-bold text-sm shadow-xl">S'inscrire gratuitement</button>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-24 bg-emerald-900 dark:bg-neutral-950">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 max-w-7xl mx-auto">
+<div class="space-y-6">
+<div class="text-xl font-bold text-white uppercase tracking-widest">MOULIN D’OR</div>
+<p class="text-emerald-100/70 text-sm leading-relaxed">RIMAMAN s'engage pour une agriculture durable et une nutrition d'exception au cœur de l'Afrique de l'Ouest.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-emerald-800 flex items-center justify-center text-white hover:bg-amber-500 transition-colors duration-300" href="#">FB</a>
+<a class="w-10 h-10 rounded-full bg-emerald-800 flex items-center justify-center text-white hover:bg-amber-500 transition-colors duration-300" href="#">IG</a>
+<a class="w-10 h-10 rounded-full bg-emerald-800 flex items-center justify-center text-white hover:bg-amber-500 transition-colors duration-300" href="#">WA</a>
+</div>
+</div>
+<div>
+<h5 class="text-amber-500 plus-jakarta-sans text-sm font-medium uppercase tracking-widest mb-6">Navigation</h5>
+<ul class="space-y-4">
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-opacity plus-jakarta-sans text-sm font-medium" href="index.html">Accueil</a></li>
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-opacity plus-jakarta-sans text-sm font-medium" href="a-propos.html">À propos</a></li>
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-opacity plus-jakarta-sans text-sm font-medium" href="nos-farines.html">Nos Farines</a></li>
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-opacity plus-jakarta-sans text-sm font-medium" href="recettes.html">Recettes</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-amber-500 plus-jakarta-sans text-sm font-medium uppercase tracking-widest mb-6">Contact</h5>
+<ul class="space-y-4">
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-opacity plus-jakarta-sans text-sm font-medium" href="ou-acheter.html">Où acheter</a></li>
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-opacity plus-jakarta-sans text-sm font-medium" href="blog.html" aria-current="page">Blog</a></li>
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-opacity plus-jakarta-sans text-sm font-medium" href="contact.html">Contact</a></li>
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-opacity plus-jakarta-sans text-sm font-medium" href="#">Newsletter</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h5 class="text-amber-500 plus-jakarta-sans text-sm font-medium uppercase tracking-widest mb-6">Localisation</h5>
+<p class="text-emerald-100/70 text-sm leading-relaxed">Cotonou, Bénin<br/>Zone Industrielle de Ganhi<br/>+229 00 00 00 00</p>
+<div class="pt-4 border-t border-emerald-800/30">
+<p class="text-emerald-100/70 text-[10px] uppercase tracking-[0.2em]">© Moulin d’Or. Tous droits réservés.</p>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

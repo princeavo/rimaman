@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<title>Accueil | RIMAMAN – Farines du Moulin d'Or</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#ffdbc9",
+              "on-primary-fixed-variant": "#005225",
+              "surface-bright": "#fbf9f5",
+              "tertiary-container": "#ae602d",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-variant": "#e4e2de",
+              "surface-container-highest": "#e4e2de",
+              "on-secondary-fixed-variant": "#633f00",
+              "tertiary-fixed-dim": "#ffb68c",
+              "secondary": "#835500",
+              "outline": "#6d7b6d",
+              "on-tertiary-container": "#fffbff",
+              "on-background": "#1b1c1a",
+              "secondary-container": "#feae2c",
+              "tertiary": "#904917",
+              "primary-fixed": "#78fc9c",
+              "primary-fixed-dim": "#5adf82",
+              "primary-container": "#008740",
+              "on-tertiary-fixed": "#321200",
+              "inverse-on-surface": "#f2f0ed",
+              "on-secondary-container": "#6b4500",
+              "on-primary-fixed": "#00210b",
+              "surface-tint": "#006d33",
+              "on-surface": "#1b1c1a",
+              "on-surface-variant": "#3d4a3e",
+              "surface": "#fbf9f5",
+              "on-error-container": "#93000a",
+              "surface-container-high": "#eae8e4",
+              "on-primary-container": "#f7fff3",
+              "surface-dim": "#dbdad6",
+              "inverse-surface": "#30312e",
+              "on-secondary-fixed": "#291800",
+              "on-secondary": "#ffffff",
+              "background": "#fbf9f5",
+              "on-tertiary-fixed-variant": "#753401",
+              "secondary-fixed": "#ffddb4",
+              "outline-variant": "#bccabb",
+              "on-error": "#ffffff",
+              "inverse-primary": "#5adf82",
+              "error": "#ba1a1a",
+              "surface-container-low": "#f5f3ef",
+              "primary": "#006b32",
+              "surface-container": "#efeeea",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed-dim": "#ffb955",
+              "on-primary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .tonal-layering { background-color: rgba(245, 243, 239, 0.5); }
+        .glass-nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 glass-nav bg-surface/80 shadow-sm transition-all duration-300">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-black text-primary tracking-tighter headline">
+                RIMAMAN
+            </div>
+<div class="hidden lg:flex items-center space-x-8">
+<a class="plus-jakarta-sans font-bold text-sm tracking-wide text-primary border-b-2 border-primary pb-1" href="index.html" aria-current="page">Accueil</a>
+<a class="plus-jakarta-sans font-bold text-sm tracking-wide text-slate-600 hover:text-primary transition-colors duration-300" href="a-propos.html">À propos</a>
+<a class="plus-jakarta-sans font-bold text-sm tracking-wide text-slate-600 hover:text-primary transition-colors duration-300" href="nos-farines.html">Nos Farines</a>
+<a class="plus-jakarta-sans font-bold text-sm tracking-wide text-slate-600 hover:text-primary transition-colors duration-300" href="recettes.html">Recettes</a>
+<a class="plus-jakarta-sans font-bold text-sm tracking-wide text-slate-600 hover:text-primary transition-colors duration-300" href="ou-acheter.html">Où acheter</a>
+<a class="plus-jakarta-sans font-bold text-sm tracking-wide text-slate-600 hover:text-primary transition-colors duration-300" href="blog.html">Blog</a>
+<a class="plus-jakarta-sans font-bold text-sm tracking-wide text-slate-600 hover:text-primary transition-colors duration-300" href="contact.html">Contact</a>
+</div>
+<div class="flex items-center space-x-6">
+<div class="hidden md:flex items-center space-x-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">search</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">shopping_cart</span>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-bold text-sm hover:scale-105 active:scale-95 transition-all duration-200">
+                    WhatsApp
+                </button>
+</div>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="relative h-screen min-h-[700px] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="Joyful West African woman in a vibrant kitchen, steam rising from a pot, soft morning sunlight illuminating golden flour dust in the air" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPx1F-yMxp5PNg5SMgfVyzN-5DgzoISPZRsFiY80vXupKYfL6glZRumJpdjzcrzIxPvVFuVk9GURufr7hP1IlW0atCfc1JdOmtFgDPTKdebjXGfqSgWzU5QSDFqnI6K9lDPbcKLJEPwrUEKAeIhKyO6Z3dh2yAUlAkx8jV2LuCzRT2UgvEXF0EiNO0udwMgbrz9pfNcdHoCRnWYS5Nx4xf0qKSe4S-kWPjZhimlUZv7mYtpPnHr-sHivwLPS_k87yBjcJwW5k5Y9E"/>
+<div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-8 w-full">
+<div class="max-w-2xl">
+<span class="inline-block px-4 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label text-xs font-bold tracking-widest uppercase mb-6">100% BIO &amp; ARTISANAL</span>
+<h1 class="text-5xl md:text-7xl font-extrabold text-white headline leading-tight mb-6">
+                        Les Farines RIMAMAN du Moulin d’Or – <span class="text-secondary-container">Naturellement Délicieuse</span> avec un goût sans pareil.
+                    </h1>
+<p class="text-xl text-white/90 font-medium mb-10 leading-relaxed border-l-4 border-primary-fixed pl-6">
+                        Pour une alimentation saine, moi, j’ai choisi “LES FARINES RIMAMAN” du moulin d’or…
+                    </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-secondary-container text-on-secondary-container px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:bg-secondary-fixed transition-all duration-300">
+                            Découvrir nos farines
+                        </button>
+<button class="bg-white/10 backdrop-blur-md border border-white/30 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300">
+                            Nos Recettes
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Choose RIMAMAN (Benefits) -->
+<section class="py-32 px-8 bg-surface">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+<div class="max-w-xl">
+<h2 class="text-4xl md:text-5xl font-black text-primary headline mb-4">Pourquoi choisir RIMAMAN ?</h2>
+<p class="text-on-surface-variant text-lg">Le secret de notre qualité réside dans le respect des traditions et la sélection rigoureuse de nos grains.</p>
+</div>
+<div class="h-1 flex-grow bg-surface-container-high ml-8 mb-4 hidden md:block"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Benefit 1 -->
+<div class="p-8 rounded-3xl bg-surface-container-low hover:bg-surface-container-highest transition-colors duration-500 group">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6 text-on-primary-container group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">bolt</span>
+</div>
+<h3 class="text-xl font-bold mb-3 headline text-primary">Énergie Durable</h3>
+<p class="text-on-surface-variant leading-relaxed">Riche en glucides complexes pour vous accompagner tout au long de la journée sans fatigue.</p>
+</div>
+<!-- Benefit 2 -->
+<div class="p-8 rounded-3xl bg-surface-container-low hover:bg-surface-container-highest transition-colors duration-500 group">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6 text-on-primary-container group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">pill</span>
+</div>
+<h3 class="text-xl font-bold mb-3 headline text-primary">Vitamines B</h3>
+<p class="text-on-surface-variant leading-relaxed">Essentielles pour votre métabolisme et le bon fonctionnement de votre système nerveux.</p>
+</div>
+<!-- Benefit 3 -->
+<div class="p-8 rounded-3xl bg-surface-container-low hover:bg-surface-container-highest transition-colors duration-500 group">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6 text-on-primary-container group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">ecg_heart</span>
+</div>
+<h3 class="text-xl font-bold mb-3 headline text-primary">Minéraux</h3>
+<p class="text-on-surface-variant leading-relaxed">Une source naturelle de Potassium et Magnésium pour votre équilibre quotidien.</p>
+</div>
+<!-- Benefit 4 -->
+<div class="p-8 rounded-3xl bg-surface-container-low hover:bg-surface-container-highest transition-colors duration-500 group">
+<div class="w-14 h-14 bg-primary-container rounded-2xl flex items-center justify-center mb-6 text-on-primary-container group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">bakery_dining</span>
+</div>
+<h3 class="text-xl font-bold mb-3 headline text-primary">Texture Tendre</h3>
+<p class="text-on-surface-variant leading-relaxed">Une finesse incomparable, idéale pour vos ignames pilées et pâtisseries traditionnelles.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Products -->
+<section class="py-24 bg-surface-container-low relative overflow-hidden">
+<div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+<div class="max-w-7xl mx-auto px-8 relative z-10">
+<div class="text-center mb-16">
+<h2 class="text-4xl md:text-5xl font-black text-on-surface headline mb-4">Nos Incontournables</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">Découvrez l'excellence de nos farines en format 1kg, parfaites pour toutes vos préparations quotidiennes.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<!-- Product 1 -->
+<div class="flex flex-col lg:flex-row bg-surface rounded-[2.5rem] overflow-hidden shadow-sm group hover:shadow-xl transition-all duration-500">
+<div class="lg:w-1/2 relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Premium 1kg bag of white maize flour on a rustic wooden table with scattered corn kernels and soft warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_n0_gkabfgj6n52eQD_e40ru5eiGrPjaOD_oXSzT2Io0iWlWEcSflnL8RirRyOBVMwkWD5n73mwrSiKXupNLeJxcI-7tkILtWpBoXN8WkhqGZUSG8qHkrJ2Q87xkI_Z8Cn_1RKGvicmKURlNNOj72Ouz6axIXHJ5HjXX5YMlFdfh8v-szifRR8MuryrFeK4Rty3Mt1klYXhdXJYxKtHwJLnXa_xx1eYF3DvHdqpRUZyr8ZwrRJbqXVS4GX3M1E8PNkpHgB1N6VWQ"/>
+<div class="absolute top-6 left-6 bg-primary text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-tighter">Bestseller</div>
+</div>
+<div class="lg:w-1/2 p-10 flex flex-col justify-center">
+<h3 class="text-3xl font-extrabold text-primary headline mb-4">Farine de Maïs</h3>
+<p class="text-on-surface-variant mb-6 leading-relaxed">Une mouture extra-fine pour une pâte onctueuse et un goût authentique de nos terroirs.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-2xl font-black text-secondary">1.500 FCFA</span>
+<button class="bg-primary-container text-on-primary-container p-4 rounded-full hover:bg-primary transition-colors">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="flex flex-col lg:flex-row bg-surface rounded-[2.5rem] overflow-hidden shadow-sm group hover:shadow-xl transition-all duration-500">
+<div class="lg:w-1/2 relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Premium 1kg bag of yam flour with smooth texture, next to a wooden pestle and mortar in a traditional setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb-Lc2UqzPRoPwooBgDCwTX77Igq6FpzWtejtJG8Pif8oQIcZSI9SntDaQkCPtdMgB8kDUiyly1GKy84PcaSDoG_V90jlRx3CJRcdn2sIyd2TZU5VHPj7eOkcDgE4ctPBYo8fnWHa5agNqMBChGVS0J9H5pSPjrPcEnhPkQB45WHBjoZdhJDBTM2cYRaFd0nHokUdcS1rY8NG2gO3TZkmRq8ONI6YBEMv6ndTAT46RwEnE26rU6YPxFZiFrdBjxv22kzpLIu6thBU"/>
+<div class="absolute top-6 left-6 bg-secondary text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-tighter">Premium</div>
+</div>
+<div class="lg:w-1/2 p-10 flex flex-col justify-center">
+<h3 class="text-3xl font-extrabold text-primary headline mb-4">Farine d'Igname</h3>
+<p class="text-on-surface-variant mb-6 leading-relaxed">Obtenez l'élasticité parfaite pour votre Fufu. Sans additifs, 100% naturelle.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-2xl font-black text-secondary">2.200 FCFA</span>
+<button class="bg-primary-container text-on-primary-container p-4 rounded-full hover:bg-primary transition-colors">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Availability Banner -->
+<section class="py-12 bg-primary">
+<div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+<div>
+<h3 class="text-2xl md:text-3xl font-black text-white headline">Disponible en 1 kg, 2 kg, 5 kg</h3>
+<p class="text-primary-fixed font-medium">La qualité RIMAMAN adaptée à tous vos besoins.</p>
+</div>
+<div class="flex items-center gap-4 bg-white/10 backdrop-blur-sm px-8 py-4 rounded-2xl border border-white/20">
+<span class="material-symbols-outlined text-secondary-container text-3xl">location_on</span>
+<span class="text-white text-xl font-bold">En vente partout au Bénin</span>
+</div>
+</div>
+</section>
+<!-- Recipe Spotlight -->
+<section class="py-32 px-8">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16">
+<span class="text-secondary font-bold tracking-widest uppercase text-sm">Inspiration Culinaire</span>
+<h2 class="text-4xl md:text-5xl font-black text-primary headline mt-2">Cuisinez avec Amour</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+<!-- Recipe 1 -->
+<div class="group cursor-pointer">
+<div class="relative h-80 rounded-[2rem] overflow-hidden mb-6">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Traditional fufu dish served in a wooden bowl with rich vegetable soup on the side" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6CHInb4egzWEqieg2XkSBYpueLySbohXul5_Zv5Z41VCT9QUcwsh59_YxTL--nEnzVqPGmIyXxrBmGnwMyJZ0-279rsv04NQbrqumhBrkVD4eTZ3DPPHOEdeo7f7NCyH-SJ9inVgUE7zatiQFrxP-go_Wkw6S_YAvhZO098DtYqzlVoQOdrtXZhYs1BP8NehdpZnc7nPa_38evnTiKU158aBuk7CCnYSON580bET-yUuUB9mUrHgiy2fkHtadxd3QT-WULtlW2Yc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-6 left-6 text-white">
+<span class="text-xs font-bold bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full">Traditionnel</span>
+</div>
+</div>
+<h4 class="text-2xl font-bold headline mb-2 group-hover:text-primary transition-colors">Fufu Onctueux</h4>
+<p class="text-on-surface-variant mb-4">Le secret d'un fufu sans grumeaux avec notre farine d'igname.</p>
+<button class="flex items-center text-primary font-bold gap-2 group/btn">
+                            Voir la recette <span class="material-symbols-outlined transition-transform group-hover/btn:translate-x-2">arrow_forward</span>
+</button>
+</div>
+<!-- Recipe 2 -->
+<div class="group cursor-pointer">
+<div class="relative h-80 rounded-[2rem] overflow-hidden mb-6">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Golden brown Akara bean cakes served in a colorful basket on a vibrant cloth" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCrgrxKOhKcqey__W4o-DEztp-3-AroEocDYzLTBZ8g-kXAWjBq-PVuOW8rd_GkOr7WBSBSWnLg-2fhaJaekNycKNh1rIjGmn2G9cA1h5q59kCcDz3fVYrLriN5R0SApKa6hh7qPhsg-rAEMr5pLfHY2KCsz0G1oo4mzvBuEwpo4QoR69OGm3q4W36KvgBpXBguHFsN7ppWG5Crk_NEUKuiK4_Pvf2C7gQoVM9ZccMZeqag964q1l7xjWsyUboznyp7udEmix8Gic"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-6 left-6 text-white">
+<span class="text-xs font-bold bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full">Petit-déjeuner</span>
+</div>
+</div>
+<h4 class="text-2xl font-bold headline mb-2 group-hover:text-primary transition-colors">Akara Croustillants</h4>
+<p class="text-on-surface-variant mb-4">Réussissez vos beignets de haricots à tous les coups.</p>
+<button class="flex items-center text-primary font-bold gap-2 group/btn">
+                            Voir la recette <span class="material-symbols-outlined transition-transform group-hover/btn:translate-x-2">arrow_forward</span>
+</button>
+</div>
+<!-- Recipe 3 -->
+<div class="group cursor-pointer">
+<div class="relative h-80 rounded-[2rem] overflow-hidden mb-6">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Sugar-dusted sweet fritters stacked on a plate with fresh fruit garnishes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl20Ce52pXCtd6HcPxf1eX2Vk2kkBHZsLIGf9Uyq4YmxCu2T3JeKU36IItSm_IEybUFRgYG6Y4aOtAPXOfRXXRUhQitqrMFbxU67UhkaSj5UKqsi54XT8OJFTb3YwH44E9FQQiiEUCZ-E3PL85YYL9XipIwiVGirHow_Mg7rCO6k9u9vLt-h0zdvUF7Rf48VxftH-LCRhbxZQjrW9OWPqP9bHxQjbYnEaA5qe2aa_6ZGDMQKf6TIcd9E6roFyzGBcxpR_4g3hq10Y"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-6 left-6 text-white">
+<span class="text-xs font-bold bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full">Dessert</span>
+</div>
+</div>
+<h4 class="text-2xl font-bold headline mb-2 group-hover:text-primary transition-colors">Beignets Sucrés</h4>
+<p class="text-on-surface-variant mb-4">Une douceur incomparable pour vos goûters en famille.</p>
+<button class="flex items-center text-primary font-bold gap-2 group/btn">
+                            Voir la recette <span class="material-symbols-outlined transition-transform group-hover/btn:translate-x-2">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-24 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-8">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div>
+<h2 class="text-4xl md:text-5xl font-black text-primary headline mb-8">Ce que disent nos familles béninoises</h2>
+<div class="space-y-8">
+<div class="bg-surface p-8 rounded-3xl shadow-sm border-l-8 border-secondary">
+<p class="text-xl italic text-on-surface-variant mb-6 leading-relaxed">"Depuis que j'utilise la farine RIMAMAN, mes enfants finissent tous leurs plats. La texture est incroyable, on sent vraiment la différence de qualité."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-primary">MA</div>
+<div>
+<p class="font-bold">Maman Ablawa</p>
+<p class="text-sm text-on-surface-variant">Cotonou, Bénin</p>
+</div>
+</div>
+</div>
+<div class="bg-surface p-8 rounded-3xl shadow-sm border-l-8 border-primary">
+<p class="text-xl italic text-on-surface-variant mb-6 leading-relaxed">"Le fufu d'igname préparé avec RIMAMAN a exactement le goût de celui de mon enfance. C'est pratique, rapide et délicieux."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-primary">KD</div>
+<div>
+<p class="font-bold">Koffi D.</p>
+<p class="text-sm text-on-surface-variant">Porto-Novo, Bénin</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="relative">
+<div class="aspect-square rounded-[3rem] overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A large happy African family sitting around a dinner table sharing a meal in a warm home atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhACw-NcJBhJ82tg-ADl4vHJKahWVNGWvn5krNr1ezm6arlCjBs6EaZCjQ3jDrtacW0dFKbOnglgmvQijxwe8st_GRNM9oofJD3_fXiQlejvfuG1yiFoibaeDnVx0U_sLIJ5ZfXQydjT3YHpXZKP97n7hlGWvGpnUExUKBiazbbnr73KmiVgfc6w1NIBwolV7o7ktWLOda07azRiA9jc6iL7n4CqjFL2yl1Av9_fD4zbMJTJZmT67LlGPKzPesI4Y24ppb4UiQlQU"/>
+</div>
+<div class="absolute -bottom-8 -left-8 bg-secondary-container p-8 rounded-3xl shadow-2xl max-w-xs">
+<div class="flex text-on-secondary-container mb-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-bold text-on-secondary-container text-lg leading-tight">Adopté par plus de 5000 familles</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-24 bg-emerald-900 text-white">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 max-w-7xl mx-auto">
+<!-- Brand Column -->
+<div class="col-span-1 md:col-span-1">
+<div class="text-2xl font-bold text-white headline mb-6">RIMAMAN</div>
+<p class="text-emerald-100/70 text-sm mb-8 leading-relaxed">
+                    Le Moulin d'Or s'engage à fournir des produits sains et naturels, issus du meilleur de nos terres béninoises.
+                </p>
+<div class="flex space-x-4">
+<a class="w-10 h-10 rounded-full border border-emerald-800/50 flex items-center justify-center hover:bg-amber-500 transition-colors duration-300" href="#">FB</a>
+<a class="w-10 h-10 rounded-full border border-emerald-800/50 flex items-center justify-center hover:bg-amber-500 transition-colors duration-300" href="#">IG</a>
+<a class="w-10 h-10 rounded-full border border-emerald-800/50 flex items-center justify-center hover:bg-amber-500 transition-colors duration-300" href="#">WA</a>
+</div>
+</div>
+<!-- Links Column 1 -->
+<div>
+<h4 class="text-amber-500 font-bold mb-6">Navigation</h4>
+<ul class="space-y-4">
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-all duration-200 block hover:translate-x-1" href="index.html" aria-current="page">Accueil</a></li>
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-all duration-200 block hover:translate-x-1" href="a-propos.html">À propos</a></li>
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-all duration-200 block hover:translate-x-1" href="nos-farines.html">Nos Farines</a></li>
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-all duration-200 block hover:translate-x-1" href="recettes.html">Recettes</a></li>
+</ul>
+</div>
+<!-- Links Column 2 -->
+<div>
+<h4 class="text-amber-500 font-bold mb-6">Support</h4>
+<ul class="space-y-4">
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-all duration-200 block hover:translate-x-1" href="ou-acheter.html">Où acheter</a></li>
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-all duration-200 block hover:translate-x-1" href="blog.html">Blog</a></li>
+<li><a class="text-emerald-100/70 hover:text-amber-300 transition-all duration-200 block hover:translate-x-1" href="contact.html">Contact</a></li>
+</ul>
+</div>
+<!-- Newsletter Column -->
+<div>
+<h4 class="text-amber-500 font-bold mb-6">Newsletter</h4>
+<p class="text-emerald-100/70 text-sm mb-6">Recevez nos dernières recettes et offres spéciales.</p>
+<div class="relative">
+<input class="w-full bg-emerald-950 border-none rounded-full px-6 py-3 text-sm focus:ring-2 focus:ring-amber-500 placeholder:text-emerald-800" placeholder="Votre email" type="email"/>
+<button class="absolute right-1 top-1 bg-amber-500 text-emerald-900 px-4 py-2 rounded-full font-bold text-xs hover:bg-amber-400 transition-colors">
+                        S'abonner
+                    </button>
+</div>
+</div>
+</div>
+<div class="border-t border-emerald-800/30 py-8 px-12">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-emerald-100/40">
+<p>© Moulin d’Or. Tous droits réservés.</p>
+<div class="flex gap-8">
+<a class="hover:text-amber-500 transition-colors" href="#">Politique de confidentialité</a>
+<a class="hover:text-amber-500 transition-colors" href="#">Mentions légales</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

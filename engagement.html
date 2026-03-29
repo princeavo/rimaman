@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head>
+<title>Engagement & Impact Local | RIMAMAN</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#633f00",
+              "secondary-fixed": "#ffddb4",
+              "on-secondary-container": "#6b4500",
+              "primary-container": "#008740",
+              "on-surface-variant": "#3d4a3e",
+              "on-primary-fixed": "#00210b",
+              "primary-fixed": "#78fc9c",
+              "error": "#ba1a1a",
+              "surface-bright": "#fbf9f5",
+              "on-secondary": "#ffffff",
+              "tertiary": "#904917",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#ffdbc9",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed": "#321200",
+              "surface-variant": "#e4e2de",
+              "secondary-fixed-dim": "#ffb955",
+              "tertiary-container": "#ae602d",
+              "surface-container-lowest": "#ffffff",
+              "surface-dim": "#dbdad6",
+              "outline": "#6d7b6d",
+              "on-tertiary": "#ffffff",
+              "secondary": "#835500",
+              "surface-tint": "#006d33",
+              "primary": "#006b32",
+              "surface-container-high": "#eae8e4",
+              "surface-container-low": "#f5f3ef",
+              "on-surface": "#1b1c1a",
+              "on-secondary-fixed": "#291800",
+              "on-tertiary-fixed-variant": "#753401",
+              "on-primary": "#ffffff",
+              "inverse-surface": "#30312e",
+              "background": "#fbf9f5",
+              "primary-fixed-dim": "#5adf82",
+              "tertiary-fixed-dim": "#ffb68c",
+              "secondary-container": "#feae2c",
+              "inverse-primary": "#5adf82",
+              "error-container": "#ffdad6",
+              "outline-variant": "#bccabb",
+              "surface-container-highest": "#e4e2de",
+              "on-tertiary-container": "#fffbff",
+              "surface-container": "#efeeea",
+              "on-background": "#1b1c1a",
+              "inverse-on-surface": "#f2f0ed",
+              "surface": "#fbf9f5",
+              "on-primary-fixed-variant": "#005225",
+              "on-primary-container": "#f7fff3"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-glass {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .signature-gradient {
+            background: linear-gradient(to bottom, #006b32, #008740);
+        }
+        .gold-foil-edge {
+            border-left: 4px solid;
+            border-image: linear-gradient(to bottom, #835500, #feae2c) 1;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopNavBar Navigation Shell -->
+<nav class="sticky top-0 w-full z-50 bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl no-border shadow-[0_4px_30px_rgba(0,0,0,0.03)]">
+<div class="flex justify-between items-center px-10 py-5 max-w-8xl mx-auto">
+<div class="text-2xl font-black tracking-tighter text-[#006b32] dark:text-white">RIMAMAN</div>
+<div class="hidden md:flex items-center gap-8 font-['Plus_Jakarta_Sans'] text-sm font-semibold tracking-wide">
+<a class="text-stone-600 dark:text-stone-400 hover:text-[#006b32] hover:opacity-80 transition-all duration-300" href="#">Our Flours</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-[#006b32] hover:opacity-80 transition-all duration-300" href="#">Recipes</a>
+<a class="text-[#006b32] border-b-2 border-[#feae2c] pb-1 hover:opacity-80 transition-all duration-300" href="#">Heritage</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-[#006b32] hover:opacity-80 transition-all duration-300" href="#">Sustainability</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="hidden lg:flex items-center gap-2 bg-secondary-container text-on-secondary-container px-6 py-2.5 rounded-full font-bold hover:opacity-80 transition-all duration-300 scale-95 active:scale-100">
+<span class="material-symbols-outlined text-lg" data-icon="chat">chat</span>
+                    Order on WhatsApp
+                </button>
+<div class="flex items-center gap-4 text-[#006b32]">
+<span class="material-symbols-outlined cursor-pointer hover:opacity-80 transition-all duration-300" data-icon="shopping_cart">shopping_cart</span>
+</div>
+</div>
+</div>
+</nav>
+<main>
+<!-- Section 1: Hero - Nos Racines au Bénin -->
+<section class="relative min-h-[921px] flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="Lush green rice paddies in northern Benin at sunrise with misty mountains and golden warm light reflecting on water" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVDr-53sN59bebfMIP7RJ9SnBOSI1LPRhD9bPMfTQbFtaPp0hwpSrWmjWTcUeyO5AARX5Z9sUo2F7NlMQVyvRQvFiWxnEOU9YAzcaEkNEErIj_Xirk-pX6RQNQGTiyALsttXpxtwH0GXk5161cTDgMKQQmUF-GLNbz-HgUyLhzKnSPY4NO7VXXo2M3KI_Kd-wJJ8RdoZPiZoUItgYDuldX_5WIFAwvi4GDY16Db_TA-zgAde_fZitswdFIC9RFmUkM_ifRuW9u260"/>
+<div class="absolute inset-0 bg-gradient-to-r from-on-surface/60 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
+<div class="max-w-2xl">
+<span class="inline-block px-4 py-1.5 rounded-full bg-secondary-container/90 text-on-secondary-container text-xs font-bold tracking-widest uppercase mb-6">Engagement &amp; Impact</span>
+<h1 class="font-headline text-5xl md:text-7xl font-extrabold text-white leading-tight mb-8">
+                        Nos Racines <br/>au <span class="text-secondary-container">Bénin</span>
+</h1>
+<p class="text-lg md:text-xl text-surface-bright/90 mb-10 leading-relaxed max-w-xl">
+                        Plus qu'une farine, RIMAMAN est le fruit d'une terre généreuse et d'un savoir-faire ancestral que nous préservons avec fierté pour nourrir l'excellence.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-secondary-container text-on-secondary-container px-8 py-4 rounded-full font-bold text-lg hover:opacity-90 transition-all shadow-xl">Découvrir notre histoire</button>
+<button class="border-2 border-white/30 backdrop-blur-md text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition-all">Nos variétés</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Soutenir les Agriculteurs Locaux -->
+<section class="py-24 bg-surface">
+<div class="max-w-7xl mx-auto px-6 md:px-12">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<div class="relative">
+<div class="absolute -top-6 -left-6 w-32 h-32 bg-primary-container rounded-3xl -z-10 opacity-20"></div>
+<img class="rounded-3xl shadow-2xl object-cover aspect-[4/5] w-full" data-alt="Close up of a smiling Beninese female farmer holding a basket of harvested white rice grains in sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKiSvzo-7tc67T54T7v1L3mOVISHhbUMg4XugG43LQ4VSray176qFr2fl5qvOyywAsjNLdFtkAFQbhuHiRqhI8GQR4x5z6vOXQrjvdmPYbXN9wQBoQY0pzrbdZTb6lSPPCI2LxzwI_3DCR7tT4y8y6sp-O_t_cBbykIs_C2CIQgLpqbIPAluMxWWK6Vz2jzxdRP9FebG-xubjzV_Bx-Rg3BlqdyGse7TvTBEQg0steEX5O7_eoY4dUuxgU5ylMQovEMAU9ZSn4cZ4"/>
+<div class="absolute -bottom-10 -right-10 bg-white p-8 rounded-2xl shadow-xl max-w-xs hidden md:block">
+<p class="font-headline font-bold text-primary italic">"Grâce à RIMAMAN, nous avons une stabilité qui permet à nos familles de prospérer sereinement."</p>
+<p class="mt-4 text-sm font-semibold text-on-surface-variant">— Adjoua, Productrice de Riz à Glazoué</p>
+</div>
+</div>
+<div class="space-y-8">
+<h2 class="font-headline text-4xl md:text-5xl font-extrabold text-on-surface leading-tight">
+                            Soutenir les <br/><span class="text-primary">Agriculteurs Locaux</span>
+</h2>
+<div class="w-20 h-1.5 signature-gradient rounded-full"></div>
+<p class="text-lg text-on-surface-variant leading-relaxed">
+                            Nous croyons en un commerce qui honore celui qui cultive. En travaillant main dans la main avec plus de 200 coopératives béninoises, nous garantissons des prix justes, bien au-dessus des standards du marché. 
+                        </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="handshake">handshake</span>
+<div>
+<h4 class="font-bold text-on-surface">Prix Équitables</h4>
+<p class="text-sm text-on-surface-variant">Valorisation directe du travail de la terre.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="eco">eco</span>
+<div>
+<h4 class="font-bold text-on-surface">Formation Bio</h4>
+<p class="text-sm text-on-surface-variant">Accompagnement vers une agriculture durable.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Production Responsable (Bento Gallery) -->
+<section class="py-24 bg-surface-container-low rounded-[3rem]">
+<div class="max-w-7xl mx-auto px-6 md:px-12">
+<div class="text-center mb-16">
+<h2 class="font-headline text-4xl font-extrabold text-on-surface mb-4">Production Responsable</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">Un équilibre parfait entre technologie moderne et respect des traditions meunières.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[600px]">
+<div class="md:col-span-4 group relative overflow-hidden rounded-3xl shadow-lg">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Modern stainless steel grain processing machines in a bright clean industrial facility" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7pqwK_neUPXhxHNqqtQkgZgGhqx9rWNaDMVa5c7CSGEi7WEBgtCV43mbHH9YKPQIs2jq5EqDy9Bv7mPIB_0KABdZQ1DXKTtycssmpZ3pJk4_i7STDEpUcD_X5_rgK107Pb6x72t8LpiiEvLcg6F-j84ndFhCyTd8dj58oWmSWXmRfIuq2maq4DyButmJdjc_wWM5TN_lqotlIbDeYo3tRR8w2jsA5UzmNOytL6Fa3iVE7s6E6yvJ2yxZZMMdxoYe7ls-t2XWDsS8"/>
+<div class="absolute inset-0 bg-black/40 flex flex-col justify-end p-8">
+<span class="text-secondary-container font-black text-2xl mb-2">01.</span>
+<h3 class="text-white font-headline font-bold text-xl">Sélection Rigoureuse</h3>
+<p class="text-white/80 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity">Chaque grain est trié manuellement pour ne garder que l'excellence.</p>
+</div>
+</div>
+<div class="md:col-span-8 group relative overflow-hidden rounded-3xl shadow-lg">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Golden corn kernels falling into a milling machine close-up with soft cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaHid3IH55NKFK70nZiiy_6pHR46ruAhpEqNpzcktWNJCmuvk_XvKJN0wuBIkEShleG6kXb6EAfAjvhsOb1ZFc_mL4JR4ZSJ1TjPx-2WS-FdIk-6A1h25evjxVzOp_9qnMDE7NbSgjdyiXizFZHlyV2ciqbRq4AuEUdRHyJQ-Q4_etrdVY_zE2LFu9FBtmfLYDDCNVxEKS5wpWUxiPV5DafVXqgQDbRvQaxFAWJTNwMrvfLp54APlxsM_PFWLulu65cCOseb803NQ"/>
+<div class="absolute inset-0 bg-black/40 flex flex-col justify-end p-8">
+<span class="text-secondary-container font-black text-2xl mb-2">02.</span>
+<h3 class="text-white font-headline font-bold text-xl">Mouture à Froid</h3>
+<p class="text-white/80 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity">Un procédé lent qui préserve l'intégralité des vitamines et des saveurs.</p>
+</div>
+</div>
+<div class="md:col-span-12 group relative overflow-hidden rounded-3xl shadow-lg h-64 md:h-auto">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Packaged flour bags in premium green and gold packaging neatly stacked on a wooden palette" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZGFBEwJpxr4q34RuuuTcEZNAyVKn5Vc6nSHAe9UttXuTBNpWtYKFP4grxQ-5oT4E8nAiG1GFQlj8WoFaEBA8MAW6tdcyEm--tozPorDkBHCvd-WROb2POW9mHY8woN8KJh10onfcM_W1MSc06MqOrAf7vSueX1g2rM6vRnxN2g2Mgj108g1V9VcxZiWY7-CFSXByz1eurYDdTwtS7wNr3DvfxAy8zKVEX5paN9rCEo7vjtbT0dbSPh_ciOIJP9_fFMyge4Wydkgs"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
+<span class="text-secondary-container font-black text-2xl mb-2">03.</span>
+<h3 class="text-white font-headline font-bold text-xl">Conditionnement Éco-responsable</h3>
+<p class="text-white/80 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity">Emballages recyclables conçus pour protéger la fraîcheur sans additifs.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Zéro Additif, 100% Naturel -->
+<section class="py-32 overflow-hidden">
+<div class="max-w-7xl mx-auto px-6 md:px-12">
+<div class="relative bg-primary text-white rounded-[3rem] p-12 md:p-24 overflow-hidden">
+<div class="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[20rem]" data-icon="forest">forest</span>
+</div>
+<div class="relative z-10 max-w-2xl">
+<h2 class="font-headline text-4xl md:text-6xl font-extrabold mb-8 leading-tight">
+                            Zéro Additif, <br/><span class="text-secondary-container">100% Naturel</span>
+</h2>
+<p class="text-xl opacity-90 leading-relaxed mb-12">
+                            Dans un monde transformé, nous choisissons la pureté. Nos farines de maïs, de riz et de manioc ne contiennent aucun conservateur, blanchisseur ou améliorant chimique. Juste le goût authentique du Bénin.
+                        </p>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-8 border-t border-white/20 pt-12">
+<div>
+<span class="text-3xl font-black block mb-2">0%</span>
+<span class="text-sm font-bold uppercase tracking-widest text-secondary-container">Additifs</span>
+</div>
+<div>
+<span class="text-3xl font-black block mb-2">100%</span>
+<span class="text-sm font-bold uppercase tracking-widest text-secondary-container">Local</span>
+</div>
+<div>
+<span class="text-3xl font-black block mb-2">Bio</span>
+<span class="text-sm font-bold uppercase tracking-widest text-secondary-container">Certifié</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: Notre Vision (Founder Quote) -->
+<section class="py-24 bg-surface-bright border-y border-outline-variant/10">
+<div class="max-w-4xl mx-auto px-6 text-center">
+<span class="material-symbols-outlined text-secondary text-6xl mb-8" data-icon="format_quote" data-weight="fill">format_quote</span>
+<h2 class="font-headline text-3xl md:text-4xl italic font-medium text-on-surface leading-snug mb-12">
+                    "Ma vision pour RIMAMAN dépasse le simple commerce. C'est un engagement sacré : offrir au peuple béninois le meilleur de ses terres, avec une excellence qui n'a rien à envier au monde entier."
+                </h2>
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 rounded-full overflow-hidden mb-4 border-2 border-secondary p-1">
+<img class="w-full h-full object-cover rounded-full" data-alt="Professional portrait of a middle-aged West African entrepreneur in traditional premium attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5p5xcwfJQLzLDcFx82bpW6w-5DQDcazGhq-fJBsykebmL6oZsE9BQUWK_kmF5iUFPiLOIdjhPJDeO5ItKvzCAm7sDfoYVLafuPw43vAPZbOhHtYXg0hfG5IdD0mctd_5TVFc_mhSS5xXaolDdmKLNtVPe396OcyRSvHLlaGTyWO15T8aZBoKc0wGd-wUmZMAe7dGq0NK4bPX3ISK7nK_YtGDmf45PKalfg0APojfiWyGbE0JoBiq15TTQRpzaFJR18rDDvFb7nLg"/>
+</div>
+<p class="font-headline font-extrabold text-on-surface text-lg">Le Fondateur</p>
+<p class="text-on-surface-variant font-medium">Les Farines RIMAMAN du Moulin d'Or</p>
+</div>
+</div>
+</section>
+<!-- CTA Final -->
+<section class="py-24 text-center">
+<div class="max-w-3xl mx-auto px-6">
+<h2 class="font-headline text-4xl font-extrabold text-on-surface mb-6">Prêt à goûter l'excellence ?</h2>
+<p class="text-on-surface-variant mb-10 text-lg">Rejoignez le mouvement de la gastronomie responsable au Bénin.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-primary text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-primary-container transition-all shadow-lg">Commander maintenant</button>
+<button class="bg-surface-container-highest text-on-surface px-10 py-4 rounded-full font-bold text-lg hover:bg-surface-container-high transition-all">Nous contacter</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Navigation Shell -->
+<footer class="w-full rounded-t-[2rem] bg-stone-50 dark:bg-stone-950">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-20 max-w-7xl mx-auto font-['Inter'] text-base leading-relaxed">
+<div class="space-y-6">
+<div class="text-xl font-bold text-[#904917] dark:text-[#feae2c]">RIMAMAN</div>
+<p class="text-stone-500 text-sm">L'excellence meunière au service du développement durable du Bénin. Du champ à votre table, avec amour.</p>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-[#006b32] dark:text-[#008740]">Exploration</h4>
+<nav class="flex flex-col gap-2">
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#835500] hover:translate-x-1 transition-transform duration-200" href="#">Our Story</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#835500] hover:translate-x-1 transition-transform duration-200" href="#">Flour Varieties</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#835500] hover:translate-x-1 transition-transform duration-200" href="#">Culinary Secrets</a>
+</nav>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-[#006b32] dark:text-[#008740]">Engagement</h4>
+<nav class="flex flex-col gap-2">
+<a class="text-[#006b32] font-bold" href="#">Sustainability</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#835500] hover:translate-x-1 transition-transform duration-200" href="contact.html">Contact Us</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-[#835500] hover:translate-x-1 transition-transform duration-200" href="#">Terms of Service</a>
+</nav>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-[#006b32] dark:text-[#008740]">Newsletter</h4>
+<div class="flex flex-col gap-4">
+<p class="text-stone-500 text-xs">Suivez nos récoltes et nos nouvelles recettes.</p>
+<div class="flex gap-2">
+<input class="bg-white border border-outline-variant/30 rounded-full px-4 py-2 text-sm w-full focus:ring-2 focus:ring-[#feae2c] outline-none" placeholder="Email" type="email"/>
+<button class="bg-primary p-2 rounded-full text-white">
+<span class="material-symbols-outlined text-sm" data-icon="send">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="text-center pb-8 border-t border-stone-200/50 mt-10 pt-8">
+<p class="text-stone-400 text-xs">© 2024 Les Farines RIMAMAN du Moulin d'Or. Fièrement Béninois.</p>
+</div>
+</footer>
+</body></html>
