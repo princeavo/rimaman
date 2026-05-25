@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html class="light" lang="fr">
+<head>
+<title>Galerie | RIMAMAN – Farines du Moulin d'Or</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "tertiary-fixed": "#ffdbc9",
+          "on-primary-fixed-variant": "#005225",
+          "surface-bright": "#fbf9f5",
+          "tertiary-container": "#ae602d",
+          "surface-container-lowest": "#ffffff",
+          "error-container": "#ffdad6",
+          "surface-variant": "#e4e2de",
+          "surface-container-highest": "#e4e2de",
+          "on-secondary-fixed-variant": "#633f00",
+          "tertiary-fixed-dim": "#ffb68c",
+          "secondary": "#835500",
+          "outline": "#6d7b6d",
+          "on-tertiary-container": "#fffbff",
+          "on-background": "#1b1c1a",
+          "secondary-container": "#feae2c",
+          "tertiary": "#904917",
+          "primary-fixed": "#78fc9c",
+          "primary-fixed-dim": "#5adf82",
+          "primary-container": "#008740",
+          "on-tertiary-fixed": "#321200",
+          "inverse-on-surface": "#f2f0ed",
+          "on-secondary-container": "#6b4500",
+          "on-primary-fixed": "#00210b",
+          "surface-tint": "#006d33",
+          "on-surface": "#1b1c1a",
+          "on-surface-variant": "#3d4a3e",
+          "surface": "#fbf9f5",
+          "on-error-container": "#93000a",
+          "surface-container-high": "#eae8e4",
+          "on-primary-container": "#f7fff3",
+          "surface-dim": "#dbdad6",
+          "inverse-surface": "#30312e",
+          "on-secondary-fixed": "#291800",
+          "on-secondary": "#ffffff",
+          "background": "#fbf9f5",
+          "on-tertiary-fixed-variant": "#753401",
+          "secondary-fixed": "#ffddb4",
+          "outline-variant": "#bccabb",
+          "on-error": "#ffffff",
+          "inverse-primary": "#5adf82",
+          "error": "#ba1a1a",
+          "surface-container-low": "#f5f3ef",
+          "primary": "#006b32",
+          "surface-container": "#efeeea",
+          "on-tertiary": "#ffffff",
+          "secondary-fixed-dim": "#ffb955",
+          "on-primary": "#ffffff"
+        },
+        fontFamily: {
+          "headline": ["Plus Jakarta Sans"],
+          "body": ["Inter"],
+          "label": ["Inter"]
+        },
+        borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+      },
+    },
+  }
+</script>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    display: inline-block; line-height: 1; text-transform: none;
+    letter-spacing: normal; word-wrap: normal; white-space: nowrap; direction: ltr;
+  }
+  .glass-nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+
+  /* Masonry layout */
+  .masonry {
+    columns: 1;
+    column-gap: 1.5rem;
+  }
+  @media (min-width: 640px) { .masonry { columns: 2; } }
+  @media (min-width: 1024px) { .masonry { columns: 3; } }
+
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Gallery item hover */
+  .gallery-item { position: relative; overflow: hidden; border-radius: 1.5rem; cursor: pointer; }
+  .gallery-item img, .gallery-item video {
+    width: 100%; display: block;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+  .gallery-item:hover img, .gallery-item:hover video { transform: scale(1.06); }
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.4s ease;
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+  /* Filter buttons */
+  .filter-btn { transition: all 0.25s ease; }
+  .filter-btn.active {
+    background-color: #006b32; color: white;
+  }
+
+  /* Lightbox */
+  #lightbox {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.92); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center;
+  }
+  #lightbox.open { display: flex; }
+  #lightbox-media { max-width: 90vw; max-height: 85vh; border-radius: 1rem; object-fit: contain; }
+  #lightbox-caption { color: white; text-align: center; margin-top: 1rem; font-size: 0.95rem; opacity: 0.8; }
+
+  /* Fade-in animation */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .masonry-item { animation: fadeUp 0.5s ease both; }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-secondary-container selection:text-on-secondary-container">
+
+<!-- Nav -->
+<nav class="fixed top-0 w-full z-50 glass-nav bg-surface/80 shadow-sm transition-all duration-300">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+  <div class="text-2xl font-black text-primary tracking-tighter headline">RIMAMAN</div>
+  <div class="hidden lg:flex items-center space-x-8">
+    <a class="font-bold text-sm tracking-wide text-slate-600 hover:text-primary transition-colors" href="index.html">Accueil</a>
+    <a class="font-bold text-sm tracking-wide text-slate-600 hover:text-primary transition-colors" href="a-propos.html">À propos</a>
+    <a class="font-bold text-sm tracking-wide text-slate-600 hover:text-primary transition-colors" href="nos-farines.html">Nos Farines</a>
+        <a class="font-bold text-sm tracking-wide text-slate-600 hover:text-primary transition-colors" href="ou-acheter.html">Où acheter</a>
+    <a class="font-bold text-sm tracking-wide text-slate-600 hover:text-primary transition-colors" href="blog.html">Blog</a>
+    <a class="font-bold text-sm tracking-wide text-primary border-b-2 border-primary pb-1" href="galerie.html" aria-current="page">Galerie</a>
+    <a class="font-bold text-sm tracking-wide text-slate-600 hover:text-primary transition-colors" href="contact.html">Contact</a>
+  </div>
+  <a href="https://wa.me/2240692269" target="_blank" class="bg-primary text-on-primary px-6 py-2 rounded-full font-bold text-sm hover:scale-105 active:scale-95 transition-all duration-200">WhatsApp</a>
+</div>
+</nav>
+
+<main class="pt-28 pb-24 px-8 max-w-7xl mx-auto">
+
+  <!-- Header -->
+  <div class="text-center mb-14">
+    <span class="text-secondary font-bold tracking-widest uppercase text-sm">Nos moments</span>
+    <h1 class="text-4xl md:text-6xl font-black text-primary headline mt-2 mb-4">Galerie RIMAMAN</h1>
+    <p class="text-on-surface-variant max-w-xl mx-auto">Découvrez nos produits, nos recettes et les moments partagés avec nos familles béninoises.</p>
+  </div>
+
+  <!-- Filters -->
+  <div class="flex flex-wrap justify-center gap-3 mb-12" id="filters">
+    <button class="filter-btn active px-6 py-2 rounded-full border-2 border-primary font-bold text-sm" data-filter="all">Tout</button>
+    <button class="filter-btn px-6 py-2 rounded-full border-2 border-primary text-primary font-bold text-sm" data-filter="produit">Produits</button>
+    <button class="filter-btn px-6 py-2 rounded-full border-2 border-primary text-primary font-bold text-sm" data-filter="recette">Recettes</button>
+    <button class="filter-btn px-6 py-2 rounded-full border-2 border-primary text-primary font-bold text-sm" data-filter="famille">Familles</button>
+    <button class="filter-btn px-6 py-2 rounded-full border-2 border-primary text-primary font-bold text-sm" data-filter="video">Vidéos</button>
+  </div>
+
+  <!-- Masonry Grid -->
+  <div class="masonry" id="gallery">
+
+    <!-- Item: produit -->
+    <div class="masonry-item gallery-item" data-category="produit" data-src="rimaman.jpeg" data-type="image" data-caption="Farine de Riz & Manioc RIMAMAN – 1 kg">
+      <img src="rimaman.jpeg" alt="Farine RIMAMAN"/>
+      <div class="gallery-overlay">
+        <span class="text-white font-bold text-sm">Farine de Riz & Manioc</span>
+        <span class="text-white/70 text-xs mt-1">Produit</span>
+        <span class="material-symbols-outlined text-white mt-2 text-xl">zoom_in</span>
+      </div>
+      <div class="absolute top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Produit</div>
+    </div>
+
+    <!-- Item: famille -->
+    <div class="masonry-item gallery-item" data-category="famille" data-src="famille-rimaman.jpeg" data-type="image" data-caption="Une famille béninoise réunie autour de RIMAMAN">
+      <img src="famille-rimaman.jpeg" alt="Famille RIMAMAN"/>
+      <div class="gallery-overlay">
+        <span class="text-white font-bold text-sm">Famille RIMAMAN</span>
+        <span class="text-white/70 text-xs mt-1">Famille</span>
+        <span class="material-symbols-outlined text-white mt-2 text-xl">zoom_in</span>
+      </div>
+      <div class="absolute top-4 right-4 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full">Famille</div>
+    </div>
+
+    <!-- Placeholder vidéo — remplace src par ta vraie vidéo -->
+    <div class="masonry-item gallery-item" data-category="video" data-src="" data-type="video" data-caption="Préparation du Fufu avec la farine RIMAMAN">
+      <div class="bg-surface-container-highest flex flex-col items-center justify-center h-56 rounded-[1.5rem]">
+        <span class="material-symbols-outlined text-primary text-6xl mb-3" style="font-variation-settings:'FILL' 1;">play_circle</span>
+        <span class="text-on-surface-variant text-sm font-medium">Ajouter une vidéo</span>
+      </div>
+      <div class="gallery-overlay">
+        <span class="text-white font-bold text-sm">Préparation Fufu</span>
+        <span class="text-white/70 text-xs mt-1">Vidéo</span>
+        <span class="material-symbols-outlined text-white mt-2 text-xl">play_arrow</span>
+      </div>
+      <div class="absolute top-4 right-4 bg-tertiary text-white text-xs font-bold px-3 py-1 rounded-full">Vidéo</div>
+    </div>
+
+    <!-- Placeholder recette -->
+    <div class="masonry-item gallery-item" data-category="recette" data-src="" data-type="image" data-caption="Recette de beignets à la farine RIMAMAN">
+      <div class="bg-surface-container-highest flex flex-col items-center justify-center h-64 rounded-[1.5rem]">
+        <span class="material-symbols-outlined text-secondary text-5xl mb-3">add_photo_alternate</span>
+        <span class="text-on-surface-variant text-sm font-medium">Ajouter une photo</span>
+      </div>
+      <div class="gallery-overlay">
+        <span class="text-white font-bold text-sm">Beignets RIMAMAN</span>
+        <span class="text-white/70 text-xs mt-1">Recette</span>
+      </div>
+      <div class="absolute top-4 right-4 bg-secondary-container text-on-secondary-container text-xs font-bold px-3 py-1 rounded-full">Recette</div>
+    </div>
+
+    <!-- Placeholder produit 2 -->
+    <div class="masonry-item gallery-item" data-category="produit" data-src="" data-type="image" data-caption="Gamme complète RIMAMAN">
+      <div class="bg-surface-container-highest flex flex-col items-center justify-center h-48 rounded-[1.5rem]">
+        <span class="material-symbols-outlined text-primary text-5xl mb-3">add_photo_alternate</span>
+        <span class="text-on-surface-variant text-sm font-medium">Ajouter une photo</span>
+      </div>
+      <div class="gallery-overlay">
+        <span class="text-white font-bold text-sm">Gamme RIMAMAN</span>
+        <span class="text-white/70 text-xs mt-1">Produit</span>
+      </div>
+      <div class="absolute top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Produit</div>
+    </div>
+
+    <!-- Placeholder vidéo 2 -->
+    <div class="masonry-item gallery-item" data-category="video" data-src="" data-type="video" data-caption="Témoignage client RIMAMAN">
+      <div class="bg-surface-container-highest flex flex-col items-center justify-center h-52 rounded-[1.5rem]">
+        <span class="material-symbols-outlined text-primary text-6xl mb-3" style="font-variation-settings:'FILL' 1;">play_circle</span>
+        <span class="text-on-surface-variant text-sm font-medium">Ajouter une vidéo</span>
+      </div>
+      <div class="gallery-overlay">
+        <span class="text-white font-bold text-sm">Témoignage client</span>
+        <span class="text-white/70 text-xs mt-1">Vidéo</span>
+      </div>
+      <div class="absolute top-4 right-4 bg-tertiary text-white text-xs font-bold px-3 py-1 rounded-full">Vidéo</div>
+    </div>
+
+  </div><!-- end masonry -->
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" role="dialog" aria-modal="true">
+  <button id="lightbox-close" class="absolute top-6 right-6 text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-colors z-10">
+    <span class="material-symbols-outlined text-3xl">close</span>
+  </button>
+  <button id="lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-colors z-10">
+    <span class="material-symbols-outlined text-3xl">chevron_left</span>
+  </button>
+  <button id="lightbox-next" class="absolute right-16 top-1/2 -translate-y-1/2 text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-colors z-10">
+    <span class="material-symbols-outlined text-3xl">chevron_right</span>
+  </button>
+  <div class="flex flex-col items-center">
+    <img id="lightbox-img" src="" alt="" style="display:none;" class="max-w-[90vw] max-h-[80vh] rounded-2xl object-contain"/>
+    <video id="lightbox-video" controls style="display:none;" class="max-w-[90vw] max-h-[80vh] rounded-2xl"></video>
+    <p id="lightbox-caption" class="text-white/70 mt-4 text-sm text-center max-w-lg"></p>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="w-full bg-emerald-900 text-white">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 max-w-7xl mx-auto">
+  <div class="col-span-1">
+    <div class="text-2xl font-bold text-white headline mb-6">RIMAMAN</div>
+    <p class="text-emerald-100/70 text-sm mb-8 leading-relaxed">Le Moulin d'Or s'engage à fournir des produits sains et naturels, issus du meilleur de nos terres béninoises.</p>
+    <div class="flex space-x-4">
+      <a class="w-10 h-10 rounded-full border border-emerald-800/50 flex items-center justify-center hover:bg-amber-500 transition-colors" href="#">FB</a>
+      <a class="w-10 h-10 rounded-full border border-emerald-800/50 flex items-center justify-center hover:bg-amber-500 transition-colors" href="#">IG</a>
+      <a class="w-10 h-10 rounded-full border border-emerald-800/50 flex items-center justify-center hover:bg-amber-500 transition-colors" href="#">WA</a>
+    </div>
+  </div>
+  <div>
+    <h4 class="text-amber-500 font-bold mb-6">Navigation</h4>
+    <ul class="space-y-4">
+      <li><a class="text-emerald-100/70 hover:text-amber-300 transition-all block hover:translate-x-1" href="index.html">Accueil</a></li>
+      <li><a class="text-emerald-100/70 hover:text-amber-300 transition-all block hover:translate-x-1" href="nos-farines.html">Nos Farines</a></li>
+      <li><a class="text-emerald-100/70 hover:text-amber-300 transition-all block hover:translate-x-1 text-amber-300" href="galerie.html">Galerie</a></li>
+      <li></li>
+    </ul>
+  </div>
+  <div>
+    <h4 class="text-amber-500 font-bold mb-6">Support</h4>
+    <ul class="space-y-4">
+      <li><a class="text-emerald-100/70 hover:text-amber-300 transition-all block hover:translate-x-1" href="ou-acheter.html">Où acheter</a></li>
+      <li><a class="text-emerald-100/70 hover:text-amber-300 transition-all block hover:translate-x-1" href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4 class="text-amber-500 font-bold mb-6">Newsletter</h4>
+    <p class="text-emerald-100/70 text-sm mb-6">Recevez nos dernières recettes et offres spéciales.</p>
+    <div class="relative">
+      <input class="w-full bg-emerald-950 border-none rounded-full px-6 py-3 text-sm focus:ring-2 focus:ring-amber-500 placeholder:text-emerald-800" placeholder="Votre email" type="email"/>
+      <button class="absolute right-1 top-1 bg-amber-500 text-emerald-900 px-4 py-2 rounded-full font-bold text-xs hover:bg-amber-400 transition-colors">S'abonner</button>
+    </div>
+  </div>
+</div>
+<div class="border-t border-emerald-800/30 py-8 px-12">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-emerald-100/40">
+    <p>© Moulin d'Or. Tous droits réservés.</p>
+    <div class="flex gap-8">
+      <a class="hover:text-amber-500 transition-colors" href="#">Politique de confidentialité</a>
+      <a class="hover:text-amber-500 transition-colors" href="#">Mentions légales</a>
+    </div>
+  </div>
+</div>
+</footer>
+
+<script>
+  // --- Filter ---
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const items = document.querySelectorAll('.masonry-item');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      items.forEach((item, i) => {
+        const show = filter === 'all' || item.dataset.category === filter;
+        item.style.display = show ? 'block' : 'none';
+        if (show) {
+          item.style.animationDelay = (i * 0.07) + 's';
+          item.style.animation = 'none';
+          requestAnimationFrame(() => { item.style.animation = ''; });
+        }
+      });
+    });
+  });
+
+  // --- Lightbox ---
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  const lbVideo = document.getElementById('lightbox-video');
+  const lbCaption = document.getElementById('lightbox-caption');
+
+  let visibleItems = [];
+  let currentIndex = 0;
+
+  function openLightbox(item) {
+    const src = item.dataset.src;
+    const type = item.dataset.type;
+    const caption = item.dataset.caption || '';
+    if (!src) return;
+
+    visibleItems = [...items].filter(i => i.style.display !== 'none' && i.dataset.src);
+    currentIndex = visibleItems.indexOf(item);
+
+    if (type === 'video') {
+      lbImg.style.display = 'none';
+      lbVideo.style.display = 'block';
+      lbVideo.src = src;
+      lbVideo.play();
+    } else {
+      lbVideo.style.display = 'none';
+      lbVideo.pause();
+      lbImg.style.display = 'block';
+      lbImg.src = src;
+    }
+    lbCaption.textContent = caption;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    lbVideo.pause();
+    lbVideo.src = '';
+    lbImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  function navigate(dir) {
+    currentIndex = (currentIndex + dir + visibleItems.length) % visibleItems.length;
+    openLightbox(visibleItems[currentIndex]);
+  }
+
+  items.forEach(item => {
+    item.addEventListener('click', () => openLightbox(item));
+  });
+
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  document.getElementById('lightbox-prev').addEventListener('click', () => navigate(-1));
+  document.getElementById('lightbox-next').addEventListener('click', () => navigate(1));
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigate(-1);
+    if (e.key === 'ArrowRight') navigate(1);
+  });
+</script>
+</body>
+</html>
