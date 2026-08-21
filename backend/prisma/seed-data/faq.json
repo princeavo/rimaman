@@ -1,0 +1,116 @@
+[
+  {
+    "id": "p1",
+    "category": "product",
+    "question": "Quelle est la différence entre vos farines?",
+    "answer": "Nos farines se distinguent par leur format (1kg ou 2kg). Notre farine signature est un mélange de riz et de manioc, offrant une texture proche du fufu d'igname traditionnel. Toutes nos farines sont 100% naturelles, sans additifs ni conservateurs."
+  },
+  {
+    "id": "p2",
+    "category": "product",
+    "question": "Comment conserver la farine RIMAMAN et combien de temps?",
+    "answer": "Conservez votre farine dans un endroit sec, frais et à l'abri de la lumière directe. Une fois le sachet ouvert, transférez la farine dans un contenant hermétique pour préserver sa qualité jusqu'à la date indiquée sur l'emballage."
+  },
+  {
+    "id": "p4",
+    "category": "product",
+    "question": "Est-ce vraiment sans gluten?",
+    "answer": "Oui. La farine RIMAMAN est composée de riz et de manioc, deux ingrédients naturellement dépourvus de gluten. Si vous souffrez d'une maladie cœliaque, vérifiez tout de même l'absence de contamination croisée selon vos besoins spécifiques."
+  },
+  {
+    "id": "p6",
+    "category": "product",
+    "question": "D'où viennent vos ingrédients?",
+    "answer": "Le riz et le manioc utilisés sont produits et transformés au Bénin, dans le cadre d'un approvisionnement auprès de producteurs locaux."
+  },
+  {
+    "id": "p7",
+    "category": "product",
+    "question": "Pourquoi votre farine a-t-elle ce prix?",
+    "answer": "Le prix reflète la sélection des matières premières et une mouture artisanale. Nous cherchons à proposer un produit de qualité à un prix accessible pour un usage quotidien."
+  },
+  {
+    "id": "u1",
+    "category": "usage",
+    "question": "Comment préparer le fufu avec votre farine?",
+    "answer": "Pour 4 personnes : 1) Portez environ 1L d'eau à ébullition. 2) Versez progressivement environ 400g de farine RIMAMAN en remuant constamment. 3) Baissez le feu et mélangez vigoureusement pendant 5 à 7 minutes jusqu'à obtenir une pâte lisse. 4) Formez des boules et servez chaud avec votre sauce préférée."
+  },
+  {
+    "id": "u2",
+    "category": "usage",
+    "question": "Quelles sont les proportions eau/farine idéales?",
+    "answer": "Pour un fufu ferme : environ 1L d'eau pour 400-450g de farine. Pour un fufu plus tendre : environ 1L d'eau pour 350-400g de farine. Ajustez selon votre préférence de texture, en ajoutant l'eau progressivement."
+  },
+  {
+    "id": "u4",
+    "category": "usage",
+    "question": "Peut-on mélanger avec d'autres farines?",
+    "answer": "Oui. Vous pouvez mélanger notre farine avec de la farine de blé pour des pains plus aérés, ou avec de la farine de maïs pour des beignets plus croustillants. N'hésitez pas à ajuster les proportions selon le résultat recherché."
+  },
+  {
+    "id": "u5",
+    "category": "usage",
+    "question": "Quelles recettes puis-je faire avec votre farine?",
+    "answer": "Fufu, beignets, pain maison, crêpes... Consultez notre page Recettes pour des idées détaillées avec les proportions exactes."
+  },
+  {
+    "id": "u6",
+    "category": "usage",
+    "question": "Pourquoi mon fufu est-il trop collant ou trop sec?",
+    "answer": "Trop collant : il y a sans doute trop d'eau ou pas assez de cuisson. Ajoutez un peu de farine et prolongez la cuisson de 2-3 minutes. Trop sec : ajoutez un peu d'eau chaude et mélangez bien. La pâte est prête quand elle se détache facilement de la casserole."
+  },
+  {
+    "id": "u8",
+    "category": "usage",
+    "question": "Combien de personnes puis-je nourrir avec 1kg?",
+    "answer": "Un sachet de 1kg permet de préparer environ 6 à 8 portions de fufu, selon les quantités servies."
+  },
+  {
+    "id": "o1",
+    "category": "order",
+    "question": "La livraison est-elle disponible?",
+    "answer": "Nous livrons sur Cotonou et Porto-Novo. Vous pouvez aussi retirer votre farine directement sur l'un de nos points de vente, visibles sur la page \"Où acheter\"."
+  },
+  {
+    "id": "o2",
+    "category": "order",
+    "question": "Quels sont les modes de paiement acceptés?",
+    "answer": "Nous acceptons le paiement par Mobile Money (MTN, Moov) et carte bancaire via nos partenaires de paiement en ligne FedaPay et KKiaPay."
+  },
+  {
+    "id": "o3",
+    "category": "order",
+    "question": "J'ai un problème avec ma commande, que faire?",
+    "answer": "Contactez-nous directement par WhatsApp, email ou téléphone : nous étudierons votre situation au cas par cas pour trouver une solution."
+  },
+  {
+    "id": "o4",
+    "category": "order",
+    "question": "Puis-je commander en gros pour mon commerce ou restaurant?",
+    "answer": "Oui. Contactez notre service professionnel pour discuter de vos volumes et obtenir un tarif adapté."
+  },
+  {
+    "id": "n1",
+    "category": "nutrition",
+    "question": "Quelles sont les valeurs nutritionnelles?",
+    "answer": "La farine RIMAMAN est principalement composée de glucides, avec une faible teneur en lipides. Elle est naturellement sans gluten. Les valeurs nutritionnelles détaillées seront publiées sur le site dès qu'une analyse en laboratoire sera disponible."
+  },
+  {
+    "id": "n3",
+    "category": "nutrition",
+    "question": "Est-elle adaptée aux enfants?",
+    "answer": "La farine RIMAMAN est utilisée traditionnellement pour préparer des repas familiaux, y compris pour les enfants. Pour les nourrissons ou en cas de besoin nutritionnel spécifique, demandez l'avis d'un professionnel de santé."
+  },
+  {
+    "id": "n4",
+    "category": "nutrition",
+    "question": "Y a-t-il des allergènes?",
+    "answer": "La farine RIMAMAN est composée de riz et de manioc uniquement, sans gluten ajouté. Si vous avez des allergies alimentaires, vérifiez la composition sur l'emballage et consultez votre médecin en cas de doute."
+  },
+  {
+    "id": "n2",
+    "category": "nutrition",
+    "question": "Convient-elle aux personnes diabétiques?",
+    "answer": "Comme tout aliment riche en glucides, la consommation doit être adaptée à votre régime. Nous recommandons de consulter votre médecin ou un nutritionniste pour ajuster les portions à votre situation."
+  }
+]

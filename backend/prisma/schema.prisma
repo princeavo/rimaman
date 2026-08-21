@@ -1,0 +1,616 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Auth
+// ---------------------------------------------------------------------------
+
+model AdminUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+// ---------------------------------------------------------------------------
+// Médiathèque
+// ---------------------------------------------------------------------------
+
+model Media {
+  id           String   @id @default(uuid())
+  /** Clé de stockage (nom de fichier), indépendante de l'URL publique. */
+  filename     String
+  url          String
+  thumbnailUrl String?
+  alt          String   @default("")
+  mimeType     String
+  width        Int?
+  height       Int?
+  sizeBytes    Int
+  createdAt    DateTime @default(now())
+
+  products        Product[]
+  recipeImages    Recipe[]          @relation("RecipeImage")
+  recipeVideos    Recipe[]          @relation("RecipeVideo")
+  recipeStepMedia RecipeStepMedia[]
+  blogPosts       BlogPost[]
+  galleryItems    GalleryItem[]
+  blocks          PageBlock[]
+
+  @@map("media")
+}
+
+// ---------------------------------------------------------------------------
+// Produits
+// ---------------------------------------------------------------------------
+
+model Product {
+  id           String   @id @default(uuid())
+  name         String
+  description  String
+  price        Int
+  weight       String
+  category     String
+  features     String[]
+  isBestseller Boolean  @default(false)
+  imageId      String?
+  image        Media?   @relation(fields: [imageId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  reviews         Review[]
+  recipeRelations RecipeProduct[]
+
+  @@map("products")
+}
+
+// ---------------------------------------------------------------------------
+// Recettes
+// ---------------------------------------------------------------------------
+
+model RecipeCategory {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  icon      String   @default("restaurant")
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  recipes Recipe[]
+
+  @@map("recipe_categories")
+}
+
+model RecipeDifficulty {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  color     String   @default("green")
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  recipes Recipe[]
+
+  @@map("recipe_difficulties")
+}
+
+model Recipe {
+  id           String           @id @default(uuid())
+  title        String
+  slug         String           @unique
+  description  String
+  categoryId   String
+  category     RecipeCategory   @relation(fields: [categoryId], references: [id])
+  difficultyId String
+  difficulty   RecipeDifficulty @relation(fields: [difficultyId], references: [id])
+  prepTime     Int
+  cookTime     Int
+  servings     Int
+  tips         String[]
+  imageId      String?
+  image        Media?           @relation("RecipeImage", fields: [imageId], references: [id])
+  videoId      String?
+  video        Media?           @relation("RecipeVideo", fields: [videoId], references: [id])
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  ingredients     RecipeIngredient[]
+  steps           RecipeStep[]
+  relatedProducts RecipeProduct[]
+  comments        RecipeComment[]
+  questions       RecipeQuestion[]
+  reactions       RecipeReaction[]
+
+  @@map("recipes")
+}
+
+model RecipeIngredient {
+  id        String @id @default(uuid())
+  recipeId  String
+  recipe    Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  item      String
+  quantity  String
+  sortOrder Int    @default(0)
+
+  @@map("recipe_ingredients")
+}
+
+model RecipeStep {
+  id          String            @id @default(uuid())
+  recipeId    String
+  recipe      Recipe            @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  step        Int
+  instruction String
+  media       RecipeStepMedia[]
+
+  @@map("recipe_steps")
+}
+
+model RecipeStepMedia {
+  id        String     @id @default(uuid())
+  stepId    String
+  step      RecipeStep @relation(fields: [stepId], references: [id], onDelete: Cascade)
+  mediaId   String
+  media     Media      @relation(fields: [mediaId], references: [id])
+  sortOrder Int        @default(0)
+
+  @@map("recipe_step_media")
+}
+
+model RecipeProduct {
+  recipeId  String
+  recipe    Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([recipeId, productId])
+  @@map("recipe_products")
+}
+
+// ---------------------------------------------------------------------------
+// Points de vente
+// ---------------------------------------------------------------------------
+
+model LocationType {
+  id        String   @id @default(uuid())
+  label     String   @unique
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("location_types")
+}
+
+model Location {
+  id        String   @id @default(uuid())
+  name      String
+  type      String
+  latitude  Float
+  longitude Float
+  address   String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("locations")
+}
+
+// ---------------------------------------------------------------------------
+// Blog
+// ---------------------------------------------------------------------------
+
+model BlogCategory {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  posts BlogPost[]
+
+  @@map("blog_categories")
+}
+
+model BlogPost {
+  id          String       @id @default(uuid())
+  title       String
+  slug        String       @unique
+  excerpt     String
+  content     Json
+  categoryId  String
+  category    BlogCategory @relation(fields: [categoryId], references: [id])
+  imageId     String?
+  image       Media?       @relation(fields: [imageId], references: [id])
+  publishedAt DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  comments  BlogComment[]
+  reactions ArticleReaction[]
+
+  @@map("blog_posts")
+}
+
+// ---------------------------------------------------------------------------
+// FAQ
+// ---------------------------------------------------------------------------
+
+model FaqCategory {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  icon      String   @default("help")
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  items FaqItem[]
+
+  @@map("faq_categories")
+}
+
+model FaqItem {
+  id         String      @id @default(uuid())
+  question   String
+  answer     String
+  categoryId String
+  category   FaqCategory @relation(fields: [categoryId], references: [id])
+  sortOrder  Int         @default(0)
+
+  @@map("faq_items")
+}
+
+// ---------------------------------------------------------------------------
+// Galerie
+// ---------------------------------------------------------------------------
+
+model GalleryCategory {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  items GalleryItem[]
+
+  @@map("gallery_categories")
+}
+
+model GalleryItem {
+  id         String          @id @default(uuid())
+  mediaId    String
+  media      Media           @relation(fields: [mediaId], references: [id])
+  categoryId String
+  category   GalleryCategory @relation(fields: [categoryId], references: [id])
+  sortOrder  Int             @default(0)
+  createdAt  DateTime        @default(now())
+
+  @@map("gallery_items")
+}
+
+// ---------------------------------------------------------------------------
+// Avis clients
+// ---------------------------------------------------------------------------
+
+enum ReviewStatus {
+  pending
+  approved
+  rejected
+}
+
+model Review {
+  id           String       @id @default(uuid())
+  productId    String
+  product      Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  author       String
+  rating       Int
+  title        String
+  comment      String
+  status       ReviewStatus @default(pending)
+  helpfulCount Int          @default(0)
+  createdAt    DateTime     @default(now())
+
+  @@map("reviews")
+}
+
+// ---------------------------------------------------------------------------
+// Commandes
+// ---------------------------------------------------------------------------
+
+enum DeliveryMethod {
+  delivery
+  pickup
+}
+
+enum OrderPaymentMethod {
+  mtn
+  moov
+  card
+  cash
+}
+
+enum PaymentStatus {
+  pending
+  paid
+  failed
+}
+
+enum OrderStatus {
+  pending
+  confirmed
+  processing
+  shipped
+  delivered
+  cancelled
+}
+
+model Order {
+  id              String             @id @default(uuid())
+  orderNumber     String             @unique
+  items           Json
+  subtotal        Int
+  shippingCost    Int
+  discount        Int                @default(0)
+  total           Int
+  shippingAddress Json
+  deliveryMethod  DeliveryMethod
+  paymentMethod   OrderPaymentMethod
+  paymentStatus   PaymentStatus      @default(pending)
+  orderStatus     OrderStatus        @default(pending)
+  promoCode       String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@map("orders")
+}
+
+// ---------------------------------------------------------------------------
+// Messages de contact
+// ---------------------------------------------------------------------------
+
+enum ContactMessageStatus {
+  new
+  read
+  archived
+}
+
+model ContactMessage {
+  id        String               @id @default(uuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  status    ContactMessageStatus @default(new)
+  createdAt DateTime             @default(now())
+
+  @@map("contact_messages")
+}
+
+// ---------------------------------------------------------------------------
+// Réglages du site (singleton)
+// ---------------------------------------------------------------------------
+
+model SiteSettings {
+  id             Int      @id @default(1)
+  whatsappNumber String
+  contactEmail   String
+  contactPhone   String
+  companyAddress String
+  mapGoogleUrl   String?
+  mapLat         Float?
+  mapLng         Float?
+  socialLinks    Json     @default("[]")
+  updatedAt      DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+// ---------------------------------------------------------------------------
+// Page builder
+// ---------------------------------------------------------------------------
+  
+enum PageStatus {
+  draft
+  published
+}
+
+model Page {
+  id              String     @id @default(uuid())
+  slug            String     @unique
+  title           String
+  metaDescription String?
+  status          PageStatus @default(draft)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  rows PageRow[]
+
+  @@map("pages")
+}
+
+model PageRow {
+  id        String   @id @default(uuid())
+  pageId    String
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  sortOrder Int       @default(0)
+  settings  Json      @default("{}")
+
+  columns PageColumn[]
+
+  @@map("page_rows")
+}
+
+model PageColumn {
+  id        String  @id @default(uuid())
+  rowId     String
+  row       PageRow @relation(fields: [rowId], references: [id], onDelete: Cascade)
+  sortOrder Int     @default(0)
+  width     Int     @default(12)
+  settings  Json    @default("{}")
+
+  blocks PageBlock[]
+
+  @@map("page_columns")
+}
+
+enum PageBlockType {
+  heading
+  rich_text
+  image
+  image_text
+  button
+  button_group
+  cta_banner
+  stats
+  video
+  spacer
+  product_grid
+  recipe_grid
+}
+
+model PageBlock {
+  id        String        @id @default(uuid())
+  columnId  String
+  column    PageColumn    @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  sortOrder Int           @default(0)
+  type      PageBlockType
+  data      Json          @default("{}")
+  mediaId   String?
+  media     Media?        @relation(fields: [mediaId], references: [id])
+
+  @@map("page_blocks")
+}
+
+// ---------------------------------------------------------------------------
+// Commentaires
+// ---------------------------------------------------------------------------
+
+enum CommentStatus {
+  pending
+  approved
+  rejected
+}
+
+model BlogComment {
+  id          String        @id @default(uuid())
+  postId      String
+  post        BlogPost      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorName  String
+  authorEmail String
+  content     String
+  parentId    String?
+  parent      BlogComment?  @relation("BlogCommentReplies", fields: [parentId], references: [id], onDelete: SetNull)
+  replies     BlogComment[] @relation("BlogCommentReplies")
+  status      CommentStatus @default(pending)
+  createdAt   DateTime      @default(now())
+
+  @@map("blog_comments")
+}
+
+model RecipeComment {
+  id          String          @id @default(uuid())
+  recipeId    String
+  recipe      Recipe          @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  authorName  String
+  authorEmail String
+  content     String
+  parentId    String?
+  parent      RecipeComment?  @relation("RecipeCommentReplies", fields: [parentId], references: [id], onDelete: SetNull)
+  replies     RecipeComment[] @relation("RecipeCommentReplies")
+  status      CommentStatus   @default(pending)
+  createdAt   DateTime        @default(now())
+
+  @@map("recipe_comments")
+}
+
+// ---------------------------------------------------------------------------
+// Questions / Réponses recettes
+// ---------------------------------------------------------------------------
+
+enum QuestionStatus {
+  pending
+  answered
+  rejected
+}
+
+model RecipeQuestion {
+  id          String         @id @default(uuid())
+  recipeId    String
+  recipe      Recipe         @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  authorName  String
+  authorEmail String
+  question    String
+  answer      String?
+  status      QuestionStatus @default(pending)
+  createdAt   DateTime       @default(now())
+  answeredAt  DateTime?
+
+  @@map("recipe_questions")
+}
+
+// ---------------------------------------------------------------------------
+// Réactions (❤️ 👏 😋 🔥)
+// ---------------------------------------------------------------------------
+
+enum ReactionEmoji {
+  HEART
+  CLAP
+  YUM
+  FIRE
+}
+
+model ArticleReaction {
+  id     String        @id @default(uuid())
+  postId String
+  post   BlogPost      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  emoji  ReactionEmoji
+  count  Int           @default(0)
+
+  @@unique([postId, emoji])
+  @@map("article_reactions")
+}
+
+model RecipeReaction {
+  id       String        @id @default(uuid())
+  recipeId String
+  recipe   Recipe        @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  emoji    ReactionEmoji
+  count    Int           @default(0)
+
+  @@unique([recipeId, emoji])
+  @@map("recipe_reactions")
+}
+
+// ---------------------------------------------------------------------------
+// Newsletter
+// ---------------------------------------------------------------------------
+
+model Newsletter {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+
+  @@map("newsletter_subscriptions")
+}
+
+// ---------------------------------------------------------------------------
+// Codes Promo
+// ---------------------------------------------------------------------------
+
+model PromoCode {
+  id             String    @id @default(uuid())
+  code           String    @unique
+  discountType   String    @default("PERCENT")
+  discountValue  Int
+  minOrderAmount Int       @default(0)
+  maxUses        Int?
+  useCount       Int       @default(0)
+  validFrom      DateTime  @default(now())
+  validUntil     DateTime?
+  isActive       Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+
+  @@map("promo_codes")
+}

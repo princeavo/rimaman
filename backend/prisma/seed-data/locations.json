@@ -1,0 +1,92 @@
+[
+  {
+    "id": "1",
+    "name": "Marché de Gbegamey",
+    "type": "Marché",
+    "coordinates": [
+      6.363906,
+      2.40508
+    ],
+    "url": "https://maps.app.goo.gl/SBY7ACyWmKVi7rCJ6"
+  },
+  {
+    "id": "2",
+    "name": "Marché de Menontin",
+    "type": "Marché",
+    "coordinates": [
+      6.390275,
+      2.369535
+    ],
+    "url": "https://maps.app.goo.gl/KWKiHynWUB7x1q3Z9"
+  },
+  {
+    "id": "3",
+    "name": "Tokplegbe Market",
+    "type": "Marché",
+    "coordinates": [
+      6.368335,
+      2.482473
+    ],
+    "url": "https://maps.app.goo.gl/7414ib1QZW6F3swH7"
+  },
+  {
+    "id": "4",
+    "name": "Nouveau Marché de Cadjehoun",
+    "type": "Marché",
+    "coordinates": [
+      6.360117,
+      2.394333
+    ],
+    "url": "https://www.google.com/maps/place/Nouveau+March%C3%A9+de+Cadjehoun"
+  },
+  {
+    "id": "5",
+    "name": "Marché Dantokpa du Bénin",
+    "type": "Marché",
+    "coordinates": [
+      6.371949,
+      2.432187
+    ],
+    "url": "https://www.google.com/maps/place/March%C3%A9+Dantokpa+du+B%C3%A9nin"
+  },
+  {
+    "id": "6",
+    "name": "Marché moderne cococodji",
+    "type": "Marché",
+    "coordinates": [
+      6.386993,
+      2.272528
+    ],
+    "url": "https://www.google.com/maps/place/March%C3%A9+moderne+cococodji"
+  },
+  {
+    "id": "7",
+    "name": "Marché Ganhi",
+    "type": "Marché",
+    "coordinates": [
+      6.353925,
+      2.433361
+    ],
+    "url": "https://www.google.com/maps/place/March%C3%A9+Ganhi"
+  },
+  {
+    "id": "8",
+    "name": "Marché Ouando",
+    "type": "Marché",
+    "coordinates": [
+      6.506466,
+      2.609791
+    ],
+    "url": "https://www.google.com/maps/place/March%C3%A9+Ouando"
+  },
+  {
+    "id": "9",
+    "name": "Grand Marché de Porto-Novo",
+    "type": "Marché",
+    "coordinates": [
+      6.48391,
+      2.614288
+    ],
+    "url": "https://www.google.com/maps/place/Grand+March%C3%A9+de+Porto-Novo"
+  }
+]

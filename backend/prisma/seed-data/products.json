@@ -1,0 +1,45 @@
+[
+  {
+    "id": "1",
+    "name": "Farine de Riz & Manioc",
+    "description": "Notre farine signature, à base de riz et de manioc, pour préparer un fufu à la texture tendre et sans grumeaux en 15 minutes. Naturellement sans gluten. Convient aussi pour des beignets et des pains maison. Produite au Bénin.",
+    "price": 1000,
+    "weight": "1kg",
+    "image": "/rimaman.jpeg",
+    "category": "Bestseller",
+    "features": [
+      "Sans gluten",
+      "Prêt en 15 minutes",
+      "100% Bio",
+      "Mouture fine"
+    ],
+    "isBestseller": true
+  },
+  {
+    "id": "2",
+    "name": "Mélange Homogène Familial",
+    "description": "Le format 2kg pour les familles nombreuses : même recette que notre farine signature, dans un sachet refermable pour une conservation optimale.",
+    "price": 5500,
+    "weight": "2kg",
+    "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDZc06IrU3_0t8-X3L30mkKCG4sPwW-bj8fEFselUpDQcRtTAofzlyRRee17SYwZcIIT_ncz4j9_KuCMDctpIVIwvSiZbSt85Skodzk2q1YX93C5Yy2KBrkA6oeXgTW0krSz3-cdVv600vMIVl-oHoseRpeSK5mXySAx0jWRi79So4nQGy0xTjPJ_qeoNdjM4XdcEedkomW53WkDAFlJVmfZxoar6bOlm1NMriDCNPsdCwpuC2hWfZ6HYqN1-JXqFGm-Wn5y72ZsLE",
+    "category": "Familial",
+    "features": [
+      "Format 2kg économique",
+      "Mélange homogène",
+      "Emballage refermable"
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Format Découverte",
+    "description": "Un sachet de 1kg pour découvrir la farine RIMAMAN sans engagement, avant de passer au format familial.",
+    "price": 2900,
+    "weight": "1kg",
+    "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuCa4zWfW0sooXuv5LdLu1dYrlTCh6o6MNgfVIXhUz5ycOW_f5ueqkiZEt5Bo-j_hpJFlsSJGUAj_a2xZwD7_QrmhAi24DsvOebSdNH_jOvCFN1g2HoCd9zmufukmJm4-dS2oPghHJeoO2ir4sC7dvScWDinoR3zkbPkOIN3wbDtjMvbMrNXUP2VFEDHxwPVyEQQEObQ8YufN6iUxAVQwL2i6nmxlp7RY90kTA4KHoLA5aH-y6gQqquzvMEF7OUz9iHDuqvkDuT8k78",
+    "category": "Découverte",
+    "features": [
+      "100% Bio",
+      "Format découverte"
+    ]
+  }
+]

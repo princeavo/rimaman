@@ -1,0 +1,254 @@
+/* Premium Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Palette RIMAMAN (alignée sur le packaging) — mode clair */
+  :root {
+    --color-primary: 138 90 0;
+    --color-on-primary: 255 255 255;
+    --color-primary-container: 245 180 0;
+    --color-on-primary-container: 43 26 0;
+    --color-primary-fixed: 245 180 0;
+    --color-primary-fixed-dim: 224 163 0;
+    --color-on-primary-fixed: 43 26 0;
+    --color-on-primary-fixed-variant: 92 57 0;
+
+    --color-secondary: 200 16 46;
+    --color-on-secondary: 255 255 255;
+    --color-secondary-container: 252 228 228;
+    --color-on-secondary-container: 122 13 26;
+    --color-secondary-fixed: 252 228 228;
+    --color-secondary-fixed-dim: 243 184 189;
+    --color-on-secondary-fixed: 122 13 26;
+    --color-on-secondary-fixed-variant: 122 13 26;
+
+    --color-tertiary: 0 118 63;
+    --color-on-tertiary: 255 255 255;
+    --color-tertiary-container: 227 245 234;
+    --color-on-tertiary-container: 0 48 31;
+    --color-tertiary-fixed: 227 245 234;
+    --color-tertiary-fixed-dim: 159 217 184;
+    --color-on-tertiary-fixed: 0 48 31;
+    --color-on-tertiary-fixed-variant: 0 48 31;
+
+    --color-error: 186 26 26;
+    --color-error-container: 255 218 214;
+    --color-on-error: 255 255 255;
+    --color-on-error-container: 147 0 10;
+
+    --color-background: 251 249 244;
+    --color-on-background: 27 27 22;
+    --color-surface: 251 249 244;
+    --color-surface-bright: 251 249 244;
+    --color-surface-dim: 221 214 200;
+    --color-on-surface: 27 27 22;
+    --color-on-surface-variant: 92 86 72;
+    --color-surface-variant: 233 226 210;
+    --color-surface-tint: 138 90 0;
+    --color-surface-container-lowest: 255 255 255;
+    --color-surface-container-low: 245 241 232;
+    --color-surface-container: 239 233 220;
+    --color-surface-container-high: 233 226 210;
+    --color-surface-container-highest: 227 219 200;
+    --color-inverse-surface: 48 49 46;
+    --color-inverse-on-surface: 242 240 237;
+    --color-inverse-primary: 245 180 0;
+
+    --color-outline: 138 132 115;
+    --color-outline-variant: 217 210 189;
+  }
+
+  /* Palette RIMAMAN — mode sombre */
+  .dark {
+    --color-primary: 245 180 0;
+    --color-on-primary: 43 26 0;
+    --color-primary-container: 92 57 0;
+    --color-on-primary-container: 255 221 161;
+    --color-primary-fixed: 245 180 0;
+    --color-primary-fixed-dim: 224 163 0;
+    --color-on-primary-fixed: 43 26 0;
+    --color-on-primary-fixed-variant: 92 57 0;
+
+    --color-secondary: 255 179 174;
+    --color-on-secondary: 104 0 20;
+    --color-secondary-container: 140 29 45;
+    --color-on-secondary-container: 255 218 215;
+    --color-secondary-fixed: 252 228 228;
+    --color-secondary-fixed-dim: 243 184 189;
+    --color-on-secondary-fixed: 122 13 26;
+    --color-on-secondary-fixed-variant: 122 13 26;
+
+    --color-tertiary: 125 218 156;
+    --color-on-tertiary: 0 57 30;
+    --color-tertiary-container: 0 82 44;
+    --color-on-tertiary-container: 159 244 190;
+    --color-tertiary-fixed: 227 245 234;
+    --color-tertiary-fixed-dim: 159 217 184;
+    --color-on-tertiary-fixed: 0 48 31;
+    --color-on-tertiary-fixed-variant: 0 48 31;
+
+    --color-error: 255 180 171;
+    --color-error-container: 147 0 10;
+    --color-on-error: 105 0 5;
+    --color-on-error-container: 255 218 214;
+
+    --color-background: 20 19 14;
+    --color-on-background: 234 227 212;
+    --color-surface: 20 19 14;
+    --color-surface-bright: 58 56 47;
+    --color-surface-dim: 20 19 14;
+    --color-on-surface: 234 227 212;
+    --color-on-surface-variant: 203 196 178;
+    --color-surface-variant: 74 71 56;
+    --color-surface-tint: 245 180 0;
+    --color-surface-container-lowest: 15 14 10;
+    --color-surface-container-low: 29 27 21;
+    --color-surface-container: 33 31 24;
+    --color-surface-container-high: 43 41 32;
+    --color-surface-container-highest: 54 51 42;
+    --color-inverse-surface: 234 227 212;
+    --color-inverse-on-surface: 27 27 22;
+    --color-inverse-primary: 138 90 0;
+
+    --color-outline: 148 141 122;
+    --color-outline-variant: 74 71 56;
+  }
+
+  body {
+    @apply bg-surface text-on-surface font-body antialiased;
+    font-feature-settings: 'liga' 1, 'calt' 1;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Accessibility: Better focus states */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary ring-2 ring-primary/20;
+  }
+  
+  /* Skip to main content link */
+  .skip-link {
+    @apply absolute -top-full left-0 bg-primary text-on-primary px-4 py-2 z-[100] transition-all;
+  }
+  
+  .skip-link:focus {
+    @apply top-0;
+  }
+}
+
+@layer utilities {
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  }
+
+  /* Sticky header blur only — no glass cards on content */
+  .glass-nav {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba(251, 249, 244, 0.92);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .dark .glass-nav {
+    background-color: rgba(20, 19, 14, 0.92);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Animations */
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  /* Animation Classes */
+  .animate-fade-in-up {
+    animation: fade-in-up 0.4s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out forwards;
+  }
+
+  /* Subtle hover lift for cards */
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Loading Skeleton */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      #e4e2de 0%,
+      #f5f3ef 50%,
+      #e4e2de 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  .dark .skeleton {
+    background: linear-gradient(
+      90deg,
+      #2b2920 0%,
+      #36332a 50%,
+      #2b2920 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  .transition-smooth {
+    transition: all 0.2s ease;
+  }
+}
+
+/* Page builder : les colonnes multi-colonnes s'empilent sur mobile */
+@media (max-width: 767px) {
+  .pb-col-row {
+    grid-template-columns: 1fr !important;
+  }
+}
