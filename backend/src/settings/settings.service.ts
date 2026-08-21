@@ -21,6 +21,8 @@ export class SettingsService {
         contactPhone: '',
         companyAddress: '',
         socialLinks: [],
+        openingHours: [],
+        impactStats: [],
       },
       update: {},
     });
@@ -46,7 +48,9 @@ export class SettingsService {
       mapGoogleUrl: dto.mapGoogleUrl ?? null,
       mapLat,
       mapLng,
-      socialLinks: (dto.socialLinks ?? []) as unknown as Prisma.InputJsonValue,
+      socialLinks:   (dto.socialLinks   ?? []) as unknown as Prisma.InputJsonValue,
+      openingHours:  (dto.openingHours  ?? []) as unknown as Prisma.InputJsonValue,
+      impactStats:   (dto.impactStats   ?? []) as unknown as Prisma.InputJsonValue,
     };
 
     return this.prisma.siteSettings.upsert({

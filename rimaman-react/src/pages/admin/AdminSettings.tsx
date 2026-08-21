@@ -4,12 +4,22 @@ import { Icon } from '../../components/common/Icon';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner';
 import { useAsyncData } from '../../hooks/useAsyncData';
 import { fetchSettings, updateSettings } from '../../api/settings';
-import type { SiteSettings, SocialLink } from '../../api/settings';
+import type { SiteSettings, SocialLink, OpeningHoursSlot, ImpactStat } from '../../api/settings';
 import { BrandIcon, hasBrandIcon } from '../../components/common/BrandIcon';
 
 /* ------------------------------------------------------------------ */
 /* Plateformes sociales prédéfinies                                      */
 /* ------------------------------------------------------------------ */
+
+const ALL_DAYS: { day: OpeningHoursSlot['day']; label: string }[] = [
+  { day: 'monday',    label: 'Lundi' },
+  { day: 'tuesday',   label: 'Mardi' },
+  { day: 'wednesday', label: 'Mercredi' },
+  { day: 'thursday',  label: 'Jeudi' },
+  { day: 'friday',    label: 'Vendredi' },
+  { day: 'saturday',  label: 'Samedi' },
+  { day: 'sunday',    label: 'Dimanche' },
+];
 
 const SOCIAL_PLATFORMS = [
   { platform: 'Facebook',    icon: 'facebook',   placeholder: 'https://facebook.com/rimaman' },
@@ -163,6 +173,128 @@ const SettingsForm: React.FC<{ initial: SiteSettings }> = ({ initial }) => {
             Lien détecté — sauvegardez pour extraire les coordonnées.
           </div>
         ) : null}
+      </div>
+
+      {/* Chiffres d'impact */}
+      <div className="bg-white rounded-2xl border border-outline-variant p-8 space-y-4">
+        <div>
+          <h2 className="text-lg font-semibold text-on-surface mb-1">Chiffres clés</h2>
+          <p className="text-sm text-on-surface-variant">
+            Affichés sur la page À Propos. Exemple : "7+", "Années au service des familles béninoises".
+          </p>
+        </div>
+        <div className="space-y-3">
+          {form.impactStats.map((stat, idx) => (
+            <div key={idx} className="flex items-center gap-3">
+              <input
+                type="text"
+                value={stat.value}
+                onChange={(e) => {
+                  const updated = form.impactStats.map((s, i) =>
+                    i === idx ? { ...s, value: e.target.value } : s,
+                  );
+                  setField('impactStats', updated);
+                }}
+                placeholder="7+"
+                className="w-24 px-3 py-2 rounded-lg border border-outline-variant bg-surface text-sm text-on-surface font-bold text-center focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"
+              />
+              <input
+                type="text"
+                value={stat.label}
+                onChange={(e) => {
+                  const updated = form.impactStats.map((s, i) =>
+                    i === idx ? { ...s, label: e.target.value } : s,
+                  );
+                  setField('impactStats', updated);
+                }}
+                placeholder="Description du chiffre"
+                className="flex-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"
+              />
+              <button
+                type="button"
+                onClick={() => setField('impactStats', form.impactStats.filter((_, i) => i !== idx))}
+                className="p-2 rounded-lg hover:bg-error/10 text-on-surface-variant hover:text-error transition-colors"
+              >
+                <Icon name="delete" size="sm" />
+              </button>
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={() => setField('impactStats', [...form.impactStats, { value: '', label: '' } as ImpactStat])}
+          className="flex items-center gap-1.5 text-sm text-primary font-medium hover:underline"
+        >
+          <Icon name="add" size="sm" />
+          Ajouter un chiffre
+        </button>
+      </div>
+
+      {/* Horaires d'ouverture */}
+      <div className="bg-white rounded-2xl border border-outline-variant p-8 space-y-4">
+        <div>
+          <h2 className="text-lg font-semibold text-on-surface mb-1">Horaires d'ouverture</h2>
+          <p className="text-sm text-on-surface-variant">
+            Activez les jours ouvrés et définissez les plages horaires. Ces données sont utilisées
+            pour afficher le statut Ouvert / Fermé et, à terme, pour filtrer les créneaux de commande.
+          </p>
+        </div>
+        <div className="divide-y divide-outline-variant">
+          {ALL_DAYS.map(({ day, label }) => {
+            const slot = form.openingHours.find((s) => s.day === day);
+            const isOpen = !!slot;
+            const toggle = () => {
+              if (isOpen) {
+                setField('openingHours', form.openingHours.filter((s) => s.day !== day));
+              } else {
+                setField('openingHours', [...form.openingHours, { day, open: '08:00', close: '17:00' }]);
+              }
+            };
+            const setTime = (field: 'open' | 'close', value: string) => {
+              setField('openingHours', form.openingHours.map((s) =>
+                s.day === day ? { ...s, [field]: value } : s,
+              ));
+            };
+            return (
+              <div key={day} className="flex items-center gap-4 py-3">
+                {/* Toggle */}
+                <button
+                  type="button"
+                  onClick={toggle}
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 rounded-full transition-colors duration-200 focus:outline-none ${isOpen ? 'bg-primary' : 'bg-outline-variant'}`}
+                  role="switch"
+                  aria-checked={isOpen}
+                >
+                  <span className={`inline-block h-5 w-5 rounded-full bg-white shadow transform transition-transform duration-200 mt-0.5 ${isOpen ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                </button>
+                {/* Jour */}
+                <span className={`w-24 text-sm font-medium ${isOpen ? 'text-on-surface' : 'text-on-surface-variant'}`}>
+                  {label}
+                </span>
+                {/* Plages horaires */}
+                {isOpen ? (
+                  <div className="flex items-center gap-2 flex-1">
+                    <input
+                      type="time"
+                      value={slot.open}
+                      onChange={(e) => setTime('open', e.target.value)}
+                      className="px-3 py-1.5 rounded-lg border border-outline-variant bg-surface text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"
+                    />
+                    <span className="text-on-surface-variant text-sm">→</span>
+                    <input
+                      type="time"
+                      value={slot.close}
+                      onChange={(e) => setTime('close', e.target.value)}
+                      className="px-3 py-1.5 rounded-lg border border-outline-variant bg-surface text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"
+                    />
+                  </div>
+                ) : (
+                  <span className="text-sm text-on-surface-variant italic">Fermé</span>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Réseaux sociaux */}

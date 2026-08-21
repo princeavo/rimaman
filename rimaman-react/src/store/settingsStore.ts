@@ -13,6 +13,20 @@ const FALLBACK_SETTINGS: SiteSettings = {
   mapLat: null,
   mapLng: null,
   socialLinks: [],
+  openingHours: [
+    { day: 'monday',    open: '08:00', close: '17:00' },
+    { day: 'tuesday',   open: '08:00', close: '17:00' },
+    { day: 'wednesday', open: '08:00', close: '17:00' },
+    { day: 'thursday',  open: '08:00', close: '17:00' },
+    { day: 'friday',    open: '08:00', close: '17:00' },
+    { day: 'saturday',  open: '08:00', close: '13:00' },
+  ],
+  impactStats: [
+    { value: '7+',     label: 'Années au service des familles béninoises' },
+    { value: '40+',    label: 'Agriculteurs locaux partenaires certifiés bio' },
+    { value: '12',     label: 'Villes couvertes au Bénin' },
+    { value: '8 000+', label: 'Familles qui nous font confiance' },
+  ],
 };
 
 interface SettingsStore {

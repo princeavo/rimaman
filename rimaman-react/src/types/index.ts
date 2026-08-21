@@ -1,13 +1,47 @@
-export type Product = {
+export type NutritionRow = {
+  label: string;
+  value: string;
+  sub?: string;
+};
+
+export type ProductCategory = {
   id: string;
   name: string;
-  description: string;
+  icon: string;
+  sortOrder: number;
+};
+
+export type ProductVariant = {
+  id: string;
+  weight: string;
   price: number;
+  stock?: number | null;
+  isDefault: boolean;
+  sortOrder: number;
+  image?: string | null;
+};
+
+export type Product = {
+  id: string;
+  /** Slug URL-friendly. Utilisé dans les liens à la place de l'UUID quand disponible. */
+  slug?: string | null;
+  name: string;
+  description: string;
+  /** Prix effectif : variante par défaut si elle existe, sinon prix de base. */
+  price: number;
+  /** Format effectif : variante par défaut si elle existe, sinon format de base. */
   weight: string;
   image: string;
-  category: string;
+  productCategory: ProductCategory;
   features: string[];
   isBestseller?: boolean;
+  nutrition?: NutritionRow[] | null;
+  /** Nombre de personnes rassasiées (par format de base ou variante par défaut). */
+  servings?: number | null;
+  storageInfo?: string | null;
+  allergens?: string | null;
+  /** Toutes les variantes disponibles (vide = produit sans variante, utiliser price/weight). */
+  variants: ProductVariant[];
 };
 
 export type Testimonial = {

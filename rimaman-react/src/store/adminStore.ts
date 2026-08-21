@@ -14,6 +14,7 @@ interface AdminState {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   checkSession: () => Promise<void>;
+  clearError: () => void;
 }
 
 export const useAdminStore = create<AdminState>((set) => ({
@@ -39,9 +40,10 @@ export const useAdminStore = create<AdminState>((set) => ({
           ? err.message
           : 'Erreur de connexion. Vérifiez vos identifiants.';
       set({ user: null, loading: false, error: message });
-      throw err;
     }
   },
+
+  clearError: () => set({ error: null }),
 
   logout: async () => {
     await apiLogout().catch(() => null);

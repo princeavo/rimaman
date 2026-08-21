@@ -6,7 +6,7 @@
  *
  * Idempotent : peut être relancé sans dupliquer les données.
  */
-import { copyFileSync, existsSync, mkdirSync } from 'fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync } from 'fs';
 import { join, extname, basename } from 'path';
 import { PrismaClient } from '@prisma/client';
 import type { Prisma } from '@prisma/client';
@@ -641,12 +641,378 @@ async function seedPages() {
   console.log(`✔ Pages (${PAGES.length} pages)`);
 }
 
+// ── Produits ──────────────────────────────────────────────────────────────────
+
+type NutritionRowSeed = { label: string; value: string; sub?: string };
+type VariantSeed = {
+  weight: string;
+  price: number;
+  stock: number | null;
+  isDefault: boolean;
+  sortOrder: number;
+};
+type ProductSeed = {
+  name: string;
+  slug: string;
+  description: string;
+  price: number;
+  weight: string;
+  image?: string;
+  categoryName?: string;
+  isBestseller?: boolean;
+  servings?: number;
+  storageInfo?: string;
+  allergens?: string;
+  features: string[];
+  nutrition?: NutritionRowSeed[];
+  variants?: VariantSeed[];
+};
+type ProductsSeedFile = {
+  categories: { name: string; icon: string; sortOrder: number }[];
+  products: ProductSeed[];
+};
+
+async function seedProducts() {
+  const raw = JSON.parse(
+    readFileSync(join(__dirname, 'seed-data/products.json'), 'utf-8'),
+  ) as ProductsSeedFile;
+
+  // 1. Catégories produit
+  const catIds = new Map<string, string>();
+  for (const cat of raw.categories) {
+    const record = await prisma.productCategory.upsert({
+      where: { name: cat.name },
+      update: {},
+      create: { name: cat.name, icon: cat.icon, sortOrder: cat.sortOrder },
+    });
+    catIds.set(cat.name, record.id);
+  }
+  console.log(`  ✔ Catégories produit (${raw.categories.length})`);
+
+  // 2. Produits + variantes
+  for (const p of raw.products) {
+    const existing = await prisma.product.findUnique({ where: { slug: p.slug } });
+    if (existing) {
+      console.log(`  ↳ Produit "${p.slug}" déjà présent, ignoré.`);
+      continue;
+    }
+
+    const imageId = await resolveMedia(p.image);
+    const categoryId = p.categoryName
+      ? (catIds.get(p.categoryName) ?? catIds.values().next().value!)
+      : catIds.values().next().value!;
+
+    const product = await prisma.product.create({
+      data: {
+        name: p.name,
+        slug: p.slug,
+        description: p.description,
+        price: p.price,
+        weight: p.weight,
+        categoryId,
+        features: p.features,
+        isBestseller: p.isBestseller ?? false,
+        imageId,
+        nutrition: p.nutrition ? (p.nutrition as Prisma.InputJsonValue) : undefined,
+        servings: p.servings ?? null,
+        storageInfo: p.storageInfo ?? null,
+        allergens: p.allergens ?? null,
+      },
+    });
+
+    for (const v of p.variants ?? []) {
+      await prisma.productVariant.create({
+        data: {
+          productId: product.id,
+          weight: v.weight,
+          price: v.price,
+          stock: v.stock,
+          isDefault: v.isDefault,
+          sortOrder: v.sortOrder,
+        },
+      });
+    }
+
+    console.log(`  ✔ "${p.slug}" créé (${p.variants?.length ?? 0} variante(s))`);
+  }
+  console.log(`✔ Produits (${raw.products.length})`);
+}
+
+// ── Recettes ──────────────────────────────────────────────────────────────────
+
+type RecipeSeed = {
+  title: string;
+  slug: string;
+  description: string;
+  image?: string;
+  category: string;
+  difficulty: string;
+  prepTime: number;
+  cookTime: number;
+  servings: number;
+  ingredients: { item: string; quantity: string }[];
+  steps: { step: number; instruction: string }[];
+  tips?: string[];
+};
+
+const DIFFICULTY_COLORS: Record<string, string> = {
+  'Facile': 'green',
+  'Très facile': 'green',
+  'Moyen': 'orange',
+  'Difficile': 'red',
+};
+
+async function seedRecipes() {
+  const raw: RecipeSeed[] = JSON.parse(
+    readFileSync(join(__dirname, 'seed-data/recipes.json'), 'utf-8'),
+  );
+
+  // Catégories
+  const categoryNames = [...new Set(raw.map((r) => r.category))];
+  const catIds = new Map<string, string>();
+  for (const [i, name] of categoryNames.entries()) {
+    const record = await prisma.recipeCategory.upsert({
+      where: { name },
+      update: {},
+      create: { name, icon: 'restaurant', sortOrder: i },
+    });
+    catIds.set(name, record.id);
+  }
+
+  // Difficultés
+  const difficultyNames = [...new Set(raw.map((r) => r.difficulty))];
+  const diffIds = new Map<string, string>();
+  for (const [i, name] of difficultyNames.entries()) {
+    const record = await prisma.recipeDifficulty.upsert({
+      where: { name },
+      update: {},
+      create: { name, color: DIFFICULTY_COLORS[name] ?? 'gray', sortOrder: i },
+    });
+    diffIds.set(name, record.id);
+  }
+
+  // Recettes
+  let created = 0;
+  for (const r of raw) {
+    const existing = await prisma.recipe.findUnique({ where: { slug: r.slug } });
+    if (existing) continue;
+
+    const imageId = await resolveMedia(r.image);
+    const recipe = await prisma.recipe.create({
+      data: {
+        title: r.title,
+        slug: r.slug,
+        description: r.description,
+        categoryId: catIds.get(r.category)!,
+        difficultyId: diffIds.get(r.difficulty)!,
+        prepTime: r.prepTime,
+        cookTime: r.cookTime,
+        servings: r.servings,
+        tips: r.tips ?? [],
+        imageId,
+      },
+    });
+
+    for (const [j, ing] of r.ingredients.entries()) {
+      await prisma.recipeIngredient.create({
+        data: { recipeId: recipe.id, item: ing.item, quantity: ing.quantity, sortOrder: j },
+      });
+    }
+
+    for (const step of r.steps) {
+      await prisma.recipeStep.create({
+        data: { recipeId: recipe.id, step: step.step, instruction: step.instruction },
+      });
+    }
+
+    created++;
+  }
+  console.log(`✔ Recettes (${created} créées, ${raw.length - created} déjà présentes)`);
+}
+
+// ── Articles de blog ──────────────────────────────────────────────────────────
+
+type BlogSeed = {
+  title: string;
+  excerpt: string;
+  content: string;
+  image?: string;
+  category: string;
+  date?: string;
+};
+
+function textToTiptap(text: string): Prisma.InputJsonValue {
+  return {
+    type: 'doc',
+    content: text
+      .split('\n\n')
+      .filter(Boolean)
+      .map((para) => ({
+        type: 'paragraph',
+        content: [{ type: 'text', text: para.trim() }],
+      })),
+  } as Prisma.InputJsonValue;
+}
+
+async function seedBlogPosts() {
+  const raw: BlogSeed[] = JSON.parse(
+    readFileSync(join(__dirname, 'seed-data/blog.json'), 'utf-8'),
+  );
+
+  const categoryNames = [...new Set(raw.map((p) => p.category))];
+  const catIds = new Map<string, string>();
+  for (const [i, name] of categoryNames.entries()) {
+    const record = await prisma.blogCategory.upsert({
+      where: { name },
+      update: {},
+      create: { name, sortOrder: i },
+    });
+    catIds.set(name, record.id);
+  }
+
+  let created = 0;
+  for (const p of raw) {
+    const postSlug = slugify(p.title);
+    const existing = await prisma.blogPost.findUnique({ where: { slug: postSlug } });
+    if (existing) continue;
+
+    const imageId = await resolveMedia(p.image);
+    await prisma.blogPost.create({
+      data: {
+        title: p.title,
+        slug: postSlug,
+        excerpt: p.excerpt,
+        content: textToTiptap(p.content),
+        categoryId: catIds.get(p.category)!,
+        imageId,
+        publishedAt: p.date ? new Date(p.date) : new Date(),
+      },
+    });
+    created++;
+  }
+  console.log(`✔ Articles blog (${created} créés, ${raw.length - created} déjà présents)`);
+}
+
+// ── FAQ ───────────────────────────────────────────────────────────────────────
+
+type FaqSeed = {
+  id: string;
+  category: string;
+  question: string;
+  answer: string;
+};
+
+const FAQ_CATEGORY_LABELS: Record<string, string> = {
+  product:   'Produits',
+  usage:     'Utilisation',
+  order:     'Commandes & Livraison',
+  nutrition: 'Nutrition',
+};
+
+async function seedFaq() {
+  const raw: FaqSeed[] = JSON.parse(
+    readFileSync(join(__dirname, 'seed-data/faq.json'), 'utf-8'),
+  );
+
+  const categoryKeys = [...new Set(raw.map((f) => f.category))];
+  const catIds = new Map<string, string>();
+  for (const [i, key] of categoryKeys.entries()) {
+    const name = FAQ_CATEGORY_LABELS[key] ?? key;
+    const record = await prisma.faqCategory.upsert({
+      where: { name },
+      update: {},
+      create: { name, icon: 'help', sortOrder: i },
+    });
+    catIds.set(key, record.id);
+  }
+
+  let created = 0;
+  for (const [i, f] of raw.entries()) {
+    const existing = await prisma.faqItem.findFirst({ where: { question: f.question } });
+    if (existing) continue;
+
+    await prisma.faqItem.create({
+      data: {
+        question: f.question,
+        answer: f.answer,
+        categoryId: catIds.get(f.category)!,
+        sortOrder: i,
+      },
+    });
+    created++;
+  }
+  console.log(`✔ FAQ (${created} questions créées, ${raw.length - created} déjà présentes)`);
+}
+
+// ── Points de vente ───────────────────────────────────────────────────────────
+
+type LocationSeed = {
+  name: string;
+  type: string;
+  coordinates: [number, number];
+};
+
+async function seedLocations() {
+  const raw: LocationSeed[] = JSON.parse(
+    readFileSync(join(__dirname, 'seed-data/locations.json'), 'utf-8'),
+  );
+
+  let created = 0;
+  for (const [i, loc] of raw.entries()) {
+    const existing = await prisma.location.findFirst({ where: { name: loc.name } });
+    if (existing) continue;
+
+    await prisma.location.create({
+      data: {
+        name: loc.name,
+        type: loc.type,
+        latitude: loc.coordinates[0],
+        longitude: loc.coordinates[1],
+        sortOrder: i,
+      },
+    });
+    created++;
+  }
+  console.log(`✔ Points de vente (${created} créés, ${raw.length - created} déjà présents)`);
+}
+
+// ── Réglages du site ──────────────────────────────────────────────────────────
+
+async function seedSettings() {
+  const existing = await prisma.siteSettings.findUnique({ where: { id: 1 } });
+  if (existing) {
+    console.log('  ↳ Réglages déjà présents, ignorés.');
+    return;
+  }
+  const raw = JSON.parse(
+    readFileSync(join(__dirname, 'seed-data/settings.json'), 'utf-8'),
+  );
+  await prisma.siteSettings.create({
+    data: {
+      id: 1,
+      whatsappNumber: raw.whatsappNumber ?? '',
+      contactEmail:   raw.contactEmail   ?? '',
+      contactPhone:   raw.contactPhone   ?? '',
+      companyAddress: raw.companyAddress ?? '',
+      openingHours:   raw.openingHours   ?? [],
+      impactStats:    raw.impactStats    ?? [],
+    },
+  });
+  console.log('✔ Réglages du site');
+}
+
 // ── Point d'entrée ────────────────────────────────────────────────────────────
 
 async function main() {
   console.log('Démarrage du seed...\n');
   await seedAdmin();
   await seedPages();
+  await seedProducts();
+  await seedRecipes();
+  await seedBlogPosts();
+  await seedFaq();
+  await seedLocations();
+  await seedSettings();
   console.log('\nSeed terminé.');
 }
 

@@ -7,7 +7,7 @@ import { Icon } from '../../components/common/Icon';
 export const AdminLogin: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login, loading, error, user } = useAdminStore();
+  const { login, loading, error, user, clearError } = useAdminStore();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,12 +16,7 @@ export const AdminLogin: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await login(email, password);
-      navigate('/admin', { replace: true });
-    } catch {
-      // error is already set in the store
-    }
+    await login(email, password);
   };
 
   return (
@@ -49,7 +44,7 @@ export const AdminLogin: React.FC = () => {
                 <input
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => { setEmail(e.target.value); if (error) clearError(); }}
                   required
                   autoFocus
                   className="w-full px-4 py-2.5 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-colors"
@@ -64,7 +59,7 @@ export const AdminLogin: React.FC = () => {
                 <input
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => { setPassword(e.target.value); if (error) clearError(); }}
                   required
                   className="w-full px-4 py-2.5 rounded-xl border border-outline-variant bg-surface text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-colors"
                   placeholder="••••••••"
@@ -72,8 +67,8 @@ export const AdminLogin: React.FC = () => {
               </div>
 
               {error && (
-                <div className="flex items-center gap-2 text-error text-sm bg-error/5 border border-error/20 px-4 py-3 rounded-xl">
-                  <Icon name="error" size="sm" />
+                <div role="alert" className="flex items-center gap-2 text-error text-sm bg-error/5 border border-error/20 px-4 py-3 rounded-xl">
+                  <Icon name="error" size="sm" className="flex-shrink-0" />
                   {error}
                 </div>
               )}

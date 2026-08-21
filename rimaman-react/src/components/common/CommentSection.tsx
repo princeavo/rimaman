@@ -89,7 +89,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
     }
   };
 
-  const inputClass = 'w-full px-4 py-3 rounded-xl bg-surface-container-low border-2 border-transparent focus:border-primary focus:outline-none text-sm text-on-surface placeholder:text-on-surface-variant';
+  const inputClass = 'w-full px-4 py-3 rounded-xl bg-surface-container-low border-2 border-outline-variant focus:border-primary focus:outline-none focus-visible:outline-none focus-visible:ring-0 text-sm text-on-surface placeholder:text-on-surface-variant transition-colors';
 
   return (
     <section className="mt-12">

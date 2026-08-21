@@ -5,30 +5,10 @@ import { Icon } from '../components/common/Icon';
 import { ProductCard } from '../components/common/ProductCard';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { useProducts } from '../hooks/useProducts';
+import { useAsyncData } from '../hooks/useAsyncData';
+import { fetchApprovedReviews } from '../api/reviews';
+import { fetchRecipes } from '../api/recipes';
 
-const TESTIMONIALS = [
-  {
-    id: 1,
-    name: 'Fatoumata K.',
-    city: 'Cotonou',
-    rating: 5,
-    text: "Je prépare mon fufu en moins de 15 minutes. La texture est parfaite et toute la famille l'adore. Je ne peux plus m'en passer !",
-  },
-  {
-    id: 2,
-    name: 'Aminatou D.',
-    city: 'Calavi',
-    rating: 5,
-    text: "Enfin une farine de riz et manioc sans grumeaux. La cuisson est régulière, le goût est authentique. Je commande le format 1kg chaque semaine.",
-  },
-  {
-    id: 3,
-    name: 'Roseline T.',
-    city: 'Porto-Novo',
-    rating: 4,
-    text: "Excellente qualité, livraison rapide. Mon mari préfère maintenant le fufu maison au restaurant. Je recommande à toutes mes amies.",
-  },
-];
 
 const FEATURES = [
   {
@@ -56,7 +36,7 @@ function Stars({ rating }: { rating: number }) {
           key={i}
           name={i < rating ? 'star' : 'star_border'}
           size="sm"
-          className={i < rating ? 'text-secondary' : 'text-on-surface-variant/30'}
+          className={i < rating ? 'text-secondary' : 'text-on-primary/30'}
         />
       ))}
     </div>
@@ -74,6 +54,28 @@ export const Products: React.FC = () => {
     error,
     retry,
   } = useProducts();
+
+  // ── Avis ────────────────────────────────────────────────────────────────────
+  const { data: allReviews, loading: reviewsLoading } = useAsyncData(
+    () => fetchApprovedReviews(),
+    [],
+  );
+  const reviewsAvg = useMemo(() => {
+    if (!allReviews?.length) return null;
+    return allReviews.reduce((sum, r) => sum + r.rating, 0) / allReviews.length;
+  }, [allReviews]);
+
+  const displayedTestimonials = useMemo(
+    () => (allReviews ?? []).slice(0, 3),
+    [allReviews],
+  );
+
+  // ── Recettes liées ───────────────────────────────────────────────────────────
+  const { data: allRecipes, loading: recipesLoading } = useAsyncData(fetchRecipes, []);
+  const linkedRecipes = useMemo(() => {
+    const withProducts = (allRecipes ?? []).filter((r) => r.relatedProducts.length > 0);
+    return (withProducts.length > 0 ? withProducts : (allRecipes ?? [])).slice(0, 3);
+  }, [allRecipes]);
 
   const jsonLd = useMemo(() => {
     if (allProducts.length === 0) return null;
@@ -163,7 +165,7 @@ export const Products: React.FC = () => {
       {/* ── 2. Catalogue ── */}
       <section id="products-catalogue" className="bg-surface py-16" aria-label="Catalogue de produits">
         <div className="max-w-7xl mx-auto px-8">
-          {/* Filter bar */}
+          {/* Barre de filtres */}
           <div className="bg-surface-container-low p-6 rounded-2xl mb-10 border border-outline-variant">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex flex-wrap gap-3 items-center">
@@ -199,7 +201,7 @@ export const Products: React.FC = () => {
             </div>
           </div>
 
-          {/* Products grid / states */}
+          {/* États : chargement / erreur / vide / grille */}
           {loading ? (
             <div className="flex justify-center py-16">
               <LoadingSpinner size="lg" />
@@ -359,44 +361,59 @@ export const Products: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 5. Témoignages ── */}
-      <section className="bg-primary py-16" aria-label="Témoignages clients">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="text-center mb-10">
-            <h2 className="font-headline text-3xl font-bold text-on-primary mb-3">
-              Ce que nos clientes disent
-            </h2>
-            <div className="flex items-center justify-center gap-2">
-              <div className="flex gap-0.5">
-                {Array.from({ length: 5 }, (_, i) => (
-                  <Icon key={i} name="star" size="sm" className="text-secondary" />
+      {/* ── 5. Témoignages (API uniquement) ── */}
+      {(reviewsLoading || displayedTestimonials.length > 0) && (
+        <section className="bg-primary py-16" aria-label="Témoignages clients">
+          <div className="max-w-7xl mx-auto px-8">
+            <div className="text-center mb-10">
+              <h2 className="font-headline text-3xl font-bold text-on-primary mb-3">
+                Ce que nos clientes disent
+              </h2>
+              {reviewsAvg !== null && (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="flex gap-0.5">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <Icon
+                        key={i}
+                        name={i < Math.round(reviewsAvg) ? 'star' : 'star_border'}
+                        size="sm"
+                        className="text-secondary"
+                      />
+                    ))}
+                  </div>
+                  <span className="text-on-primary/80 font-medium">
+                    {reviewsAvg.toFixed(1)} / 5 · {allReviews!.length} avis
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {reviewsLoading ? (
+              <div className="flex justify-center py-8">
+                <LoadingSpinner size="md" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {displayedTestimonials.map((t) => (
+                  <div key={t.id} className="bg-white/10 rounded-2xl p-8 flex flex-col gap-4">
+                    <Stars rating={t.rating} />
+                    <p className="text-on-primary leading-relaxed italic">"{t.comment}"</p>
+                    <div className="mt-auto flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                        <span className="text-on-primary font-bold text-sm">{t.author[0]}</span>
+                      </div>
+                      <p className="text-on-primary font-semibold text-sm">{t.author}</p>
+                    </div>
+                  </div>
                 ))}
               </div>
-              <span className="text-on-primary/80 font-medium">4,9 / 5 · 200+ avis</span>
-            </div>
+            )}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {TESTIMONIALS.map((t) => (
-              <div key={t.id} className="bg-white/10 rounded-2xl p-8 flex flex-col gap-4">
-                <Stars rating={t.rating} />
-                <p className="text-on-primary leading-relaxed italic">"{t.text}"</p>
-                <div className="mt-auto flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                    <span className="text-on-primary font-bold text-sm">{t.name[0]}</span>
-                  </div>
-                  <div>
-                    <p className="text-on-primary font-semibold text-sm">{t.name}</p>
-                    <p className="text-on-primary/60 text-xs">{t.city}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* ── 6. Recettes ── */}
-      <section className="bg-surface py-16" aria-label="Recettes avec notre farine">
+      {/* ── 6. Recettes (API uniquement) ── */}
+      {(recipesLoading || linkedRecipes.length > 0) && <section className="bg-surface py-16" aria-label="Recettes avec notre farine">
         <div className="max-w-7xl mx-auto px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
             <div>
@@ -415,57 +432,57 @@ export const Products: React.FC = () => {
               <Icon name="arrow_forward" size="sm" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                icon: 'restaurant',
-                title: 'Fufu nature',
-                desc: 'Le grand classique béninois en 15 minutes seulement.',
-                time: '15 min',
-                difficulty: 'Facile',
-              },
-              {
-                icon: 'dinner_dining',
-                title: 'Fufu au gombo',
-                desc: 'Servez votre fufu avec une sauce gombo onctueuse et relevée.',
-                time: '45 min',
-                difficulty: 'Intermédiaire',
-              },
-              {
-                icon: 'lunch_dining',
-                title: 'Fufu au poulet',
-                desc: "Un repas complet pour toute la famille, prêt en moins d'une heure.",
-                time: '55 min',
-                difficulty: 'Facile',
-              },
-            ].map(({ icon, title, desc, time, difficulty }) => (
-              <Link
-                key={title}
-                to="/recettes"
-                className="group block bg-surface-container-low rounded-2xl p-8 border border-outline-variant hover-lift"
-              >
-                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
-                  <Icon name={icon} size="lg" className="text-primary" />
-                </div>
-                <h3 className="font-headline text-xl font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">
-                  {title}
-                </h3>
-                <p className="text-on-surface-variant text-sm leading-relaxed mb-4">{desc}</p>
-                <div className="flex items-center gap-4 text-xs text-on-surface-variant">
-                  <span className="flex items-center gap-1">
-                    <Icon name="schedule" size="sm" />
-                    {time}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Icon name="signal_cellular_alt" size="sm" />
-                    {difficulty}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
+
+          {recipesLoading ? (
+            <div className="flex justify-center py-12">
+              <LoadingSpinner size="md" />
+            </div>
+          ) : linkedRecipes.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {linkedRecipes.map((recipe) => (
+                <Link
+                  key={recipe.id}
+                  to={`/recettes/${recipe.slug}`}
+                  className="group block bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant hover-lift"
+                >
+                  {recipe.image ? (
+                    <div className="h-48 overflow-hidden">
+                      <img
+                        src={recipe.image}
+                        alt={recipe.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-48 bg-primary/10 flex items-center justify-center">
+                      <Icon name="restaurant" size="xl" className="text-primary opacity-40" />
+                    </div>
+                  )}
+                  <div className="p-6">
+                    <h3 className="font-headline text-lg font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">
+                      {recipe.title}
+                    </h3>
+                    <p className="text-on-surface-variant text-sm leading-relaxed mb-4 line-clamp-2">
+                      {recipe.description}
+                    </p>
+                    <div className="flex items-center gap-4 text-xs text-on-surface-variant">
+                      <span className="flex items-center gap-1">
+                        <Icon name="schedule" size="sm" />
+                        {recipe.prepTime + recipe.cookTime} min
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Icon name="signal_cellular_alt" size="sm" />
+                        {recipe.difficulty.name}
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : null}
         </div>
-      </section>
+      </section>}
 
       {/* ── 7. Garanties ── */}
       <section className="bg-surface-container-low py-16 border-t border-outline-variant" aria-label="Nos garanties">

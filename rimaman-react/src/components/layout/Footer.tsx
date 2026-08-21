@@ -12,7 +12,7 @@ export const Footer: React.FC = () => {
   }, [loadSettings]);
 
   return (
-    <footer className="w-full mt-24 bg-on-surface text-surface">
+    <footer className="w-full bg-on-surface text-surface">
       <div className="px-12 pt-12 pb-6 max-w-7xl mx-auto border-b border-surface/10">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>

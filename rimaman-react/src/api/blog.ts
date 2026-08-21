@@ -4,14 +4,14 @@ import type { BlogPost } from '../types';
 
 const WORDS_PER_MINUTE = 200;
 
-function richTextToPlainText(content: BackendBlogPost['content']): string {
+export function richTextToPlainText(content: BackendBlogPost['content']): string {
   return content.content
     .map((node) => node.content?.map((textNode) => textNode.text ?? '').join('') ?? '')
     .filter(Boolean)
     .join('\n\n');
 }
 
-function estimateReadTime(plainText: string): string {
+export function estimateReadTime(plainText: string): string {
   const wordCount = plainText.split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(1, Math.round(wordCount / WORDS_PER_MINUTE));
   return `${minutes} min`;

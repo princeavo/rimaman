@@ -2,293 +2,276 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Icon } from '../components/common/Icon';
-import {
-  GAMME_NUTRITION,
-  HEALTH_BENEFITS,
-  NUTRITION_FAQ,
-  type ProductNutrition,
-} from '../constants/nutritionData';
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
+// ── Static editorial content ─────────────────────────────────────────────────
+// This page is a brand-level statement, not a product data sheet.
+// Per-product nutritional values live on each product's detail page (/nos-farines/:slug).
 
-const fmt = (v: number | null, unit = '', decimals = 1): string =>
-  v === null ? '—' : `${v.toFixed(decimals)} ${unit}`.trim();
-
-const DIET_LABELS: Array<{
-  key: keyof ProductNutrition['diet'];
-  label: string;
-  icon: string;
-}> = [
-  { key: 'glutenFree', label: 'Sans gluten', icon: 'do_not_disturb_on' },
-  { key: 'vegetarian', label: 'Végétarien', icon: 'eco' },
-  { key: 'vegan', label: 'Végan', icon: 'energy_savings_leaf' },
-  { key: 'lactoseFree', label: 'Sans lactose', icon: 'no_drinks' },
-  { key: 'diabeticFriendly', label: 'IG à confirmer', icon: 'monitor_heart' },
+const COMMITMENTS = [
+  {
+    icon: 'do_not_disturb_on',
+    title: 'Sans gluten naturellement',
+    description:
+      'Riz et manioc sont exempts de gluten par nature. Aucune contamination croisée dans notre atelier de production.',
+  },
+  {
+    icon: 'spa',
+    title: 'Zéro additif',
+    description:
+      'Pas de conservateurs, pas de colorants, pas d\'agents de texture. Ce que vous lisez sur l\'emballage est tout ce qu\'il y a.',
+  },
+  {
+    icon: 'location_on',
+    title: 'Origine 100 % locale',
+    description:
+      'Riz et manioc cultivés et transformés au Bénin. Du champ au sachet, sans détour ni intermédiaire étranger.',
+  },
+  {
+    icon: 'verified',
+    title: 'Transparence totale',
+    description:
+      'Nous affichons ce que nous savons et précisons ce qui est encore à confirmer par analyse de laboratoire.',
+  },
 ];
 
-// ── Sub-components ────────────────────────────────────────────────────────────
-
-
-const NutritionRow: React.FC<{
-  label: string;
-  value: string;
-  sub?: boolean;
-  bold?: boolean;
-}> = ({ label, value, sub, bold }) => (
-  <div
-    className={`flex justify-between items-center py-2 border-b border-outline-variant/50 last:border-0 ${
-      sub ? 'pl-5' : ''
-    }`}
-  >
-    <span
-      className={`text-sm ${bold ? 'font-semibold text-on-surface' : sub ? 'text-on-surface-variant' : 'text-on-surface'}`}
-    >
-      {sub && <span className="mr-1 text-on-surface-variant">—</span>}
-      {label}
-    </span>
-    <span
-      className={`text-sm font-mono tabular-nums ${
-        value === '—'
-          ? 'text-on-surface-variant/50 italic'
-          : bold
-            ? 'font-bold text-on-surface'
-            : 'text-on-surface'
-      }`}
-    >
-      {value}
-    </span>
-  </div>
-);
-
-const DietBadge: React.FC<{
-  label: string;
+const DIET_BADGES: Array<{
   icon: string;
-  value: boolean | null;
-}> = ({ label, icon, value }) => {
-  const isTrue = value === true;
-  const isPending = value === null;
-  return (
-    <div
-      className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border text-center ${
-        isPending
-          ? 'bg-surface-container border-outline-variant text-on-surface-variant'
-          : isTrue
-            ? 'bg-primary/5 border-primary/20 text-primary'
-            : 'bg-error/5 border-error/20 text-error'
-      }`}
-    >
-      <Icon name={isTrue ? icon : isPending ? 'help_outline' : 'cancel'} size="md"
-        className={isPending ? 'text-on-surface-variant' : isTrue ? 'text-primary' : 'text-error'}
-      />
-      <span className="text-xs font-medium leading-tight">{label}</span>
-      {isPending && <span className="text-[10px] text-on-surface-variant">À confirmer</span>}
-    </div>
-  );
-};
+  label: string;
+  status: 'yes' | 'caution';
+  note?: string;
+}> = [
+  { icon: 'do_not_disturb_on',   label: 'Sans gluten',  status: 'yes' },
+  { icon: 'eco',                  label: 'Végétarien',   status: 'yes' },
+  { icon: 'energy_savings_leaf',  label: 'Végan',        status: 'yes' },
+  { icon: 'no_drinks',            label: 'Sans lactose', status: 'yes' },
+  { icon: 'monitor_heart',        label: 'IG élevé',     status: 'caution', note: 'IG ≈ 68–72' },
+];
 
-// ── Main page ─────────────────────────────────────────────────────────────────
+const FAQ_ITEMS = [
+  {
+    q: 'Vos farines sont-elles certifiées sans gluten ?',
+    a: 'Nos farines sont fabriquées à partir de riz et de manioc, deux ingrédients naturellement exempts de gluten. Une certification officielle est en cours d\'obtention. En attendant, elles conviennent aux personnes intolérantes. Pour les cas de maladie cœliaque sévère, consultez votre médecin.',
+  },
+  {
+    q: 'Peut-on les utiliser dans un régime diabétique ?',
+    a: 'Le riz blanc et le manioc ont un indice glycémique élevé (IG ≈ 72 et 65 respectivement). Notre farine n\'est pas recommandée en grande quantité pour les personnes diabétiques ou insulino-résistantes. Consultez votre nutritionniste avant de l\'intégrer à un régime thérapeutique.',
+  },
+  {
+    q: 'Quels allergènes sont présents ?',
+    a: 'Nos farines ne contiennent aucun des 14 allergènes majeurs définis par la réglementation alimentaire (gluten, lait, œufs, arachides, fruits à coque, soja, poisson, crustacés, mollusques, céleri, moutarde, sésame, lupin, dioxyde de soufre). Elles sont fabriquées dans un atelier dédié ne traitant pas ces allergènes.',
+  },
+  {
+    q: 'Les valeurs nutritionnelles affichées sont-elles fiables ?',
+    a: 'Les valeurs présentes sur chaque fiche produit sont des estimations basées sur la composition connue du riz décortiqué et du manioc séché. Elles constituent une bonne référence indicative. Des analyses officielles en laboratoire accrédité sont en cours pour les confirmer.',
+  },
+  {
+    q: 'Combien de temps conserver la farine après ouverture ?',
+    a: 'Après ouverture, refermez le sachet hermétiquement et conservez-le dans un endroit frais et sec, à l\'abri de la lumière et de l\'humidité. Consommez dans les 3 mois. La durée de conservation complète figure sur chaque emballage.',
+  },
+];
+
+// ── Page ─────────────────────────────────────────────────────────────────────
 
 export const Nutrition: React.FC = () => {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const { facts, diet } = GAMME_NUTRITION;
+  const [openFaq, setOpenFaq] = useState<string | null>(null);
 
   return (
     <>
       <Helmet>
-        <title>Nutrition & Santé | RIMAMAN - Les Farines du Moulin d'Or</title>
+        <title>Nutrition & Transparence | RIMAMAN</title>
         <meta
           name="description"
-          content="Informations nutritionnelles complètes sur les farines RIMAMAN : valeurs nutritives, ingrédients, allergènes, compatibilité alimentaire."
+          content="Composition, allergènes, compatibilité alimentaire et questions fréquentes sur les farines RIMAMAN. Deux ingrédients. Rien d'autre."
         />
+        <meta property="og:title" content="Nutrition & Transparence | RIMAMAN" />
+        <meta property="og:description" content="Deux ingrédients. Rien d'autre. Tout ce qu'il y a dans les farines RIMAMAN : composition, allergènes et compatibilité alimentaire." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/rimaman.jpeg" />
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: FAQ_ITEMS.map(({ q, a }) => ({
+            '@type': 'Question',
+            name: q,
+            acceptedAnswer: { '@type': 'Answer', text: a },
+          })),
+        })}</script>
       </Helmet>
 
       {/* ── Hero ── */}
-      <header className="pt-28 pb-12 px-8 max-w-7xl mx-auto text-center">
-        <span className="inline-block py-1 px-4 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wide mb-4">
-          Nutrition & Santé
+      <header className="pt-28 pb-16 px-6 max-w-4xl mx-auto text-center">
+        <span className="inline-block py-1 px-4 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wide mb-5">
+          Nutrition & Transparence
         </span>
-        <h1 className="text-3xl md:text-5xl font-bold text-on-surface leading-tight mb-6 font-headline">
-          Ce qu'il y a dans nos farines
+        <h1 className="text-4xl md:text-6xl font-black text-on-surface leading-tight mb-6 font-headline">
+          Deux ingrédients.<br />
+          <span className="text-primary">Rien d'autre.</span>
         </h1>
-        <p className="text-lg text-on-surface-variant max-w-2xl mx-auto">
-          Transparence totale sur la composition, les valeurs nutritionnelles et la compatibilité
-          avec vos régimes alimentaires.
+        <p className="text-lg text-on-surface-variant max-w-xl mx-auto leading-relaxed">
+          Riz décortiqué béninois et manioc séché béninois. C'est la totalité de ce qu'il y a dans
+          nos farines. Pas de liste d'ingrédients à déchiffrer.
         </p>
       </header>
 
-      <main className="px-8 max-w-7xl mx-auto pb-24 space-y-16">
+      <main className="px-6 max-w-5xl mx-auto pb-24 space-y-20">
 
-        {/* ── Fiche nutritionnelle ── */}
-        <section className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-
-          {/* Tableau nutritionnel */}
-          <div className="lg:col-span-3 bg-white rounded-2xl border-2 border-on-surface p-6">
-            <div className="border-b-8 border-on-surface pb-2 mb-3">
-              <h2 className="text-2xl font-black text-on-surface font-headline">Valeurs nutritionnelles</h2>
-              <p className="text-sm text-on-surface-variant">Pour 100 g de produit</p>
+        {/* ── Ingrédients ── */}
+        <section>
+          <div className="rounded-3xl border-2 border-on-surface bg-surface-container-lowest overflow-hidden">
+            {/* Header */}
+            <div className="bg-inverse-surface px-8 py-5">
+              <p className="text-sm font-semibold uppercase tracking-widest text-inverse-on-surface/60 mb-1">
+                Liste des ingrédients
+              </p>
+              <p className="text-2xl font-black text-inverse-on-surface font-headline">
+                Riz décortiqué, Manioc séché.
+              </p>
             </div>
 
-            <div>
-              <NutritionRow label="Énergie"
-                value={`${fmt(facts.per100g.energy_kcal, 'kcal', 0)} / ${fmt(facts.per100g.energy_kj, 'kJ', 0)}`}
-                bold />
-              <NutritionRow label="Protéines" value={fmt(facts.per100g.protein_g, 'g')} bold />
-              <NutritionRow label="Glucides" value={fmt(facts.per100g.carbs_g, 'g')} bold />
-              <NutritionRow label="dont sucres" value={fmt(facts.per100g.sugars_g, 'g')} sub />
-              <NutritionRow label="Lipides" value={fmt(facts.per100g.fat_g, 'g')} bold />
-              <NutritionRow label="dont acides gras saturés" value={fmt(facts.per100g.saturated_fat_g, 'g')} sub />
-              <NutritionRow label="Fibres alimentaires" value={fmt(facts.per100g.fiber_g, 'g')} bold />
-              <NutritionRow label="Sel" value={fmt(facts.per100g.salt_g, 'g')} bold />
-              <div className="mt-3 pt-3 border-t border-outline-variant">
-                <p className="text-xs text-on-surface-variant mb-2 font-medium uppercase tracking-wide">Minéraux</p>
-                <NutritionRow label="Fer" value={fmt(facts.per100g.iron_mg, 'mg')} />
-                <NutritionRow label="Calcium" value={fmt(facts.per100g.calcium_mg, 'mg')} />
-                <NutritionRow label="Potassium" value={fmt(facts.per100g.potassium_mg, 'mg')} />
+            {/* Composition visuelle */}
+            <div className="p-8">
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-primary/10 rounded-2xl p-6 text-center">
+                  <p className="text-5xl font-black text-primary font-headline mb-1">60%</p>
+                  <p className="text-sm font-semibold text-on-surface">Riz décortiqué</p>
+                  <p className="text-xs text-on-surface-variant mt-1">origine Bénin</p>
+                </div>
+                <div className="bg-surface-container rounded-2xl p-6 text-center">
+                  <p className="text-5xl font-black text-on-surface font-headline mb-1">40%</p>
+                  <p className="text-sm font-semibold text-on-surface">Manioc séché</p>
+                  <p className="text-xs text-on-surface-variant mt-1">origine Bénin</p>
+                </div>
               </div>
-            </div>
 
-            <p className="text-xs text-on-surface-variant mt-4 pt-4 border-t border-outline-variant">
-              * Les valeurs affichées sont des moyennes. Les teneurs réelles peuvent varier selon le lot de production.
-            </p>
+              {/* Barre de proportion */}
+              <div className="flex rounded-full overflow-hidden h-3 mb-4">
+                <div className="bg-primary w-[60%]" />
+                <div className="bg-surface-container-highest w-[40%]" />
+              </div>
+
+              <p className="text-xs text-on-surface-variant text-center">
+                Même recette pour tous les formats (500 g, 1 kg, 2 kg, 5 kg)
+              </p>
+            </div>
           </div>
 
-          {/* Infos complémentaires */}
-          <div className="lg:col-span-2 space-y-5">
-
-            {/* Ingrédients */}
-            <div className="bg-surface-container-low rounded-2xl border border-outline-variant p-5">
-              <h3 className="font-bold text-on-surface font-headline mb-3 flex items-center gap-2">
-                <Icon name="list_alt" className="text-primary" size="md" />
-                Ingrédients
-              </h3>
-              <p className="text-sm text-on-surface leading-relaxed">{GAMME_NUTRITION.ingredients}</p>
-            </div>
-
-            {/* Allergènes */}
-            <div className="bg-surface-container-low rounded-2xl border border-outline-variant p-5">
-              <h3 className="font-bold text-on-surface font-headline mb-3 flex items-center gap-2">
-                <Icon name="warning" className="text-amber-500" size="md" />
-                Allergènes
-              </h3>
-              {GAMME_NUTRITION.allergens.length === 0 ? (
-                <p className="text-sm text-on-surface">
-                  Aucun des 14 allergènes majeurs n'est présent dans ce produit.
-                </p>
-              ) : (
-                <ul className="space-y-1">
-                  {GAMME_NUTRITION.allergens.map((a) => (
-                    <li key={a} className="text-sm text-error flex items-center gap-2">
-                      <Icon name="error" size="sm" className="text-error" />
-                      {a}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {GAMME_NUTRITION.traces.length > 0 && (
-                <div className="mt-3 pt-3 border-t border-outline-variant">
-                  <p className="text-xs font-semibold text-amber-700 mb-1">Peut contenir des traces de :</p>
-                  <p className="text-xs text-on-surface-variant">{GAMME_NUTRITION.traces.join(', ')}</p>
-                </div>
-              )}
-            </div>
-
-            {/* Conservation */}
-            <div className="bg-surface-container-low rounded-2xl border border-outline-variant p-5">
-              <h3 className="font-bold text-on-surface font-headline mb-3 flex items-center gap-2">
-                <Icon name="inventory_2" className="text-primary" size="md" />
-                Conservation
-              </h3>
-              <p className="text-sm text-on-surface-variant leading-relaxed mb-3">{GAMME_NUTRITION.storageInfo}</p>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-white rounded-xl p-3 border border-outline-variant text-center">
-                  <p className="text-2xl font-black text-primary font-headline">
-                    {GAMME_NUTRITION.shelfLifeClosedMonths ?? '—'}
-                  </p>
-                  <p className="text-xs text-on-surface-variant mt-0.5">mois (fermé)</p>
-                </div>
-                <div className="bg-white rounded-xl p-3 border border-outline-variant text-center">
-                  <p className="text-2xl font-black text-primary font-headline">
-                    {GAMME_NUTRITION.shelfLifeOpenedDays ?? '—'}
-                  </p>
-                  <p className="text-xs text-on-surface-variant mt-0.5">jours (ouvert)</p>
-                </div>
-              </div>
-            </div>
+          {/* Note fiches produits */}
+          <div className="mt-4 flex items-start gap-3 bg-primary/5 rounded-2xl px-5 py-4 border border-primary/15">
+            <Icon name="info" className="text-primary mt-0.5 flex-shrink-0" size="sm" />
+            <p className="text-sm text-on-surface-variant">
+              Les valeurs nutritionnelles détaillées (calories, glucides, protéines...) figurent sur
+              la fiche de chaque produit.{' '}
+              <Link to="/nos-farines" className="text-primary font-medium hover:underline">
+                Voir nos produits →
+              </Link>
+            </p>
           </div>
         </section>
 
-        {/* ── Compatibilité régimes ── */}
+        {/* ── Nos engagements ── */}
+        <section>
+          <h2 className="text-2xl font-bold font-headline text-on-surface mb-2">
+            Nos engagements
+          </h2>
+          <p className="text-on-surface-variant text-sm mb-8">
+            Ce que nous nous engageons à garantir sur chaque sachet.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {COMMITMENTS.map((c) => (
+              <div
+                key={c.title}
+                className="flex gap-4 bg-surface-container-low rounded-2xl p-5 border border-outline-variant"
+              >
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Icon name={c.icon} className="text-primary" size="md" />
+                </div>
+                <div>
+                  <p className="font-semibold text-on-surface mb-1">{c.title}</p>
+                  <p className="text-sm text-on-surface-variant leading-relaxed">{c.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Compatibilité alimentaire ── */}
         <section>
           <h2 className="text-2xl font-bold font-headline text-on-surface mb-2">
             Compatibilité alimentaire
           </h2>
-          <p className="text-on-surface-variant mb-6 text-sm">Valable pour l'ensemble de la gamme RIMAMAN.</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-            {DIET_LABELS.map(({ key, label, icon }) => (
-              <DietBadge key={key} label={label} icon={icon} value={diet[key]} />
-            ))}
-          </div>
-        </section>
-
-        {/* ── Bienfaits ── */}
-        <section>
-          <h2 className="text-2xl font-bold font-headline text-on-surface mb-2">
-            Bienfaits pour la santé
-          </h2>
-          <p className="text-on-surface-variant mb-8 text-sm max-w-2xl">
-            Ces informations sont basées sur la composition connue de nos ingrédients. Elles ne constituent pas un avis médical.
+          <p className="text-on-surface-variant text-sm mb-8">
+            Valable pour l'ensemble de la gamme RIMAMAN.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {HEALTH_BENEFITS.map((b, i) => (
-              <div key={i} className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant">
-                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <Icon name={b.icon} className="text-primary" size="md" />
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+            {DIET_BADGES.map(({ icon, label, status, note }) => {
+              const isYes     = status === 'yes';
+              const isCaution = status === 'caution';
+              return (
+                <div
+                  key={label}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-2xl border text-center ${
+                    isYes
+                      ? 'bg-primary/5 border-primary/20'
+                      : 'bg-surface-container border-outline-variant'
+                  }`}
+                >
+                  <Icon
+                    name={isCaution ? 'info' : icon}
+                    size="md"
+                    className={isYes ? 'text-primary' : 'text-on-surface-variant'}
+                  />
+                  <span className={`text-xs font-semibold leading-tight ${
+                    isYes ? 'text-primary' : 'text-on-surface-variant'
+                  }`}>
+                    {label}
+                  </span>
+                  {note && (
+                    <span className="text-[10px] text-on-surface-variant">{note}</span>
+                  )}
                 </div>
-                <h3 className="font-bold text-on-surface font-headline mb-2">{b.title}</h3>
-                <p className="text-sm text-on-surface-variant leading-relaxed">{b.description}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
-        {/* ── Points clés produit sélectionné ── */}
-        <section className="bg-surface-container-low rounded-2xl border border-outline-variant p-8">
-          <h2 className="text-xl font-bold font-headline text-on-surface mb-6 flex items-center gap-2">
-            <Icon name="verified" className="text-primary" />
-            Ce qu'on sait sur la {GAMME_NUTRITION.productName}
-          </h2>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {GAMME_NUTRITION.benefits.map((b, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <Icon name="check_circle" size="sm" className="text-primary mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-on-surface">{b}</span>
-              </li>
-            ))}
-          </ul>
+        {/* ── Allergènes ── */}
+        <section className="bg-tertiary-container/50 border border-tertiary/30 rounded-2xl p-6 flex gap-4">
+          <Icon name="verified_user" className="text-tertiary flex-shrink-0 mt-0.5" size="md" />
+          <div>
+            <p className="font-semibold text-on-tertiary-container mb-1">Allergènes</p>
+            <p className="text-sm text-on-tertiary-container/80 leading-relaxed">
+              Aucun des 14 allergènes majeurs n'est présent dans notre gamme. Nos farines sont
+              fabriquées dans un atelier dédié ne traitant pas d'allergènes. Pour toute sensibilité
+              spécifique, consultez l'étiquette de l'emballage.
+            </p>
+          </div>
         </section>
 
-        {/* ── FAQ Nutrition ── */}
+        {/* ── FAQ ── */}
         <section>
           <h2 className="text-2xl font-bold font-headline text-on-surface mb-8">
             Questions fréquentes
           </h2>
           <div className="space-y-3">
-            {NUTRITION_FAQ.map((item, i) => (
-              <div key={i} className="bg-white rounded-2xl border border-outline-variant overflow-hidden">
+            {FAQ_ITEMS.map((item) => (
+              <div
+                key={item.q}
+                className="bg-surface-container-lowest rounded-2xl border border-outline-variant overflow-hidden"
+              >
                 <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  onClick={() => setOpenFaq(openFaq === item.q ? null : item.q)}
                   className="w-full flex items-center justify-between gap-4 px-6 py-4 text-left hover:bg-surface-container/50 transition-colors"
+                  aria-expanded={openFaq === item.q}
                 >
-                  <span className="font-medium text-on-surface">{item.question}</span>
+                  <span className="font-medium text-on-surface">{item.q}</span>
                   <Icon
-                    name={openFaq === i ? 'expand_less' : 'expand_more'}
+                    name={openFaq === item.q ? 'expand_less' : 'expand_more'}
                     className="text-on-surface-variant flex-shrink-0"
                   />
                 </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-5 text-sm text-on-surface-variant leading-relaxed border-t border-outline-variant pt-4">
-                    {item.answer}
+                {openFaq === item.q && (
+                  <div className="px-6 pb-5 pt-4 text-sm text-on-surface-variant leading-relaxed border-t border-outline-variant">
+                    {item.a}
                   </div>
                 )}
               </div>
@@ -297,11 +280,11 @@ export const Nutrition: React.FC = () => {
         </section>
 
         {/* ── CTA ── */}
-        <section className="bg-primary/75 rounded-2xl p-10 md:p-14 text-center">
-          <div className="max-w-2xl mx-auto">
+        <section className="bg-primary/75 rounded-3xl p-10 md:p-14 text-center">
+          <div className="max-w-xl mx-auto">
             <Icon name="shopping_bag" size="xl" className="text-on-primary mb-5" />
-            <h2 className="text-2xl md:text-3xl font-bold text-on-primary font-headline mb-4">
-              Prêt à essayer ?
+            <h2 className="text-2xl md:text-3xl font-bold text-on-primary font-headline mb-3">
+              Convaincu·e ?
             </h2>
             <p className="text-on-primary/80 mb-8">
               Commandez nos farines en ligne ou retrouvez-les dans un point de vente près de chez vous.

@@ -23,6 +23,7 @@ import {
   deleteRecipe,
   type RecipePayload,
 } from '../../api/recipes';
+import { fetchProducts } from '../../api/products';
 import type { BackendRecipe, BackendRecipeCategory, BackendRecipeDifficulty } from '../../api/backend-types';
 import type { RecipeCategory, RecipeDifficulty } from '../../types';
 import type { Media } from '../../api/media';
@@ -81,6 +82,7 @@ type RecipeForm = {
   videoUrl?: string;
   ingredients: IngredientRow[];
   steps: StepRow[];
+  relatedProductIds: string[];
 };
 
 const EMPTY_FORM: RecipeForm = {
@@ -91,6 +93,7 @@ const EMPTY_FORM: RecipeForm = {
   videoId: undefined, videoUrl: undefined,
   ingredients: [{ item: '', quantity: '' }],
   steps: [{ instruction: '', media: [] }],
+  relatedProductIds: [],
 };
 
 // ── Onglet Catégories ─────────────────────────────────────────────────────────
@@ -407,6 +410,7 @@ function buildPayload(form: RecipeForm): RecipePayload {
       instruction: s.instruction,
       media: s.media.map((m, i) => ({ mediaId: m.mediaId, sortOrder: m.sortOrder ?? i })),
     })),
+    relatedProductIds: form.relatedProductIds,
   };
 }
 
@@ -440,11 +444,13 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ({ editing, categories, diffic
         instruction: s.instruction,
         media: s.media.map((m, i) => ({ mediaId: m.mediaId, url: m.media.url, mimeType: m.media.mimeType, sortOrder: m.sortOrder ?? i })),
       })),
+      relatedProductIds: editing.relatedProducts.map((r) => r.productId),
     };
   });
 
   const [slugManual, setSlugManual] = useState(!!editing);
   const [saving, setSaving] = useState(false);
+  const { data: allProducts } = useAsyncData(fetchProducts, []);
   // null = fermé, 'cover' = image couverture, 'video' = vidéo, number = index étape
   const [mediaTarget, setMediaTarget] = useState<null | 'cover' | 'video' | number>(null);
 
@@ -765,6 +771,45 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ({ editing, categories, diffic
               </button>
             </div>
           </div>
+
+          {/* Produits liés */}
+          {(allProducts ?? []).length > 0 && (
+            <div>
+              <label className="block text-sm font-medium text-on-surface mb-1">Produits liés</label>
+              <p className="text-xs text-on-surface-variant mb-3">
+                Cette recette apparaîtra sur la page de ces produits.
+              </p>
+              <div className="space-y-2">
+                {(allProducts ?? []).map((p) => {
+                  const checked = form.relatedProductIds.includes(p.id);
+                  return (
+                    <label key={p.id} className="flex items-center gap-3 px-4 py-3 rounded-xl border border-outline-variant hover:bg-surface-container cursor-pointer transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() =>
+                          setForm((f) => ({
+                            ...f,
+                            relatedProductIds: checked
+                              ? f.relatedProductIds.filter((id) => id !== p.id)
+                              : [...f.relatedProductIds, p.id],
+                          }))
+                        }
+                        className="w-4 h-4 accent-primary flex-shrink-0"
+                      />
+                      {p.image && (
+                        <img src={p.image} alt="" className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
+                      )}
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-on-surface">{p.name}</p>
+                        <p className="text-xs text-on-surface-variant">{p.weight} · {p.price.toLocaleString()} FCFA</p>
+                      </div>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Conseils */}
           <div>

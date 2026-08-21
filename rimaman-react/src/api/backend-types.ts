@@ -11,16 +11,50 @@ export interface BackendMedia {
   mimeType: string;
 }
 
+export interface BackendProductCategory {
+  id: string;
+  name: string;
+  icon: string;
+  sortOrder: number;
+}
+
+export interface BackendProductVariant {
+  id: string;
+  productId: string;
+  weight: string;
+  price: number;
+  stock: number | null;
+  isDefault: boolean;
+  sortOrder: number;
+  image: BackendMedia | null;
+}
+
+/** Une ligne du tableau nutritionnel tel que stocké en JSON dans la DB. */
+export interface NutritionRow {
+  label: string;
+  value: string;
+  sub?: string;
+}
+
 export interface BackendProduct {
   id: string;
   name: string;
+  slug: string | null;
   description: string;
+  /** Prix de base (rétrocompatibilité). Utiliser variants[isDefault].price quand des variantes existent. */
   price: number;
+  /** Format de base (rétrocompatibilité). Utiliser variants[isDefault].weight quand des variantes existent. */
   weight: string;
-  category: string;
+  categoryId: string;
+  productCategory: BackendProductCategory;
   features: string[];
   isBestseller: boolean;
+  nutrition: NutritionRow[] | null;
+  servings: number | null;
+  storageInfo: string | null;
+  allergens: string | null;
   image: BackendMedia | null;
+  variants: BackendProductVariant[];
 }
 
 export interface BackendLocationType {

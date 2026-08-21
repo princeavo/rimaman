@@ -11,6 +11,7 @@ import { Home } from './pages/Home';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { RequireAdmin } from './components/admin/RequireAdmin';
 import { AdminLogin } from './pages/admin/AdminLogin';
+import { Preloader } from './components/common/Preloader';
 
 // Lazy load pages for better performance
 const About = lazy(() => import('./pages/About').then(m => ({ default: m.About })));
@@ -39,6 +40,7 @@ const NotFound = lazy(() => import('./pages/NotFound').then(m => ({ default: m.N
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard').then(m => ({ default: m.AdminDashboard })));
 const AdminMedia = lazy(() => import('./pages/admin/AdminMedia').then(m => ({ default: m.AdminMedia })));
 const AdminProducts = lazy(() => import('./pages/admin/AdminProducts').then(m => ({ default: m.AdminProducts })));
+const AdminCategories = lazy(() => import('./pages/admin/AdminCategories').then(m => ({ default: m.AdminCategories })));
 const AdminRecipes = lazy(() => import('./pages/admin/AdminRecipes').then(m => ({ default: m.AdminRecipes })));
 const AdminBlog = lazy(() => import('./pages/admin/AdminBlog').then(m => ({ default: m.AdminBlog })));
 const AdminFaq = lazy(() => import('./pages/admin/AdminFaq').then(m => ({ default: m.AdminFaq })));
@@ -48,7 +50,6 @@ const AdminOrders = lazy(() => import('./pages/admin/AdminOrders').then(m => ({ 
 const AdminReviews = lazy(() => import('./pages/admin/AdminReviews').then(m => ({ default: m.AdminReviews })));
 const AdminMessages = lazy(() => import('./pages/admin/AdminMessages').then(m => ({ default: m.AdminMessages })));
 const AdminSettings = lazy(() => import('./pages/admin/AdminSettings').then(m => ({ default: m.AdminSettings })));
-const AdminPages = lazy(() => import('./pages/admin/AdminPages').then(m => ({ default: m.AdminPages })));
 const AdminComments = lazy(() => import('./pages/admin/AdminComments').then(m => ({ default: m.AdminComments })));
 const AdminQuestions = lazy(() => import('./pages/admin/AdminQuestions').then(m => ({ default: m.AdminQuestions })));
 
@@ -106,8 +107,8 @@ function AppContent() {
                 <Routes>
                   <Route index element={<AdminDashboard />} />
                   <Route path="media" element={<AdminMedia />} />
-                  <Route path="pages" element={<AdminPages />} />
                   <Route path="produits" element={<AdminProducts />} />
+                  <Route path="categories-produit" element={<AdminCategories />} />
                   <Route path="recettes" element={<AdminRecipes />} />
                   <Route path="blog" element={<AdminBlog />} />
                   <Route path="faq" element={<AdminFaq />} />
@@ -140,13 +141,16 @@ function AppContent() {
 
 function App() {
   return (
-    <ErrorBoundary>
-      <HelmetProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </HelmetProvider>
-    </ErrorBoundary>
+    <>
+      <Preloader />
+      <ErrorBoundary>
+        <HelmetProvider>
+          <Router>
+            <AppContent />
+          </Router>
+        </HelmetProvider>
+      </ErrorBoundary>
+    </>
   );
 }
 

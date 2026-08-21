@@ -1,18 +1,43 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link as RouterLink } from 'react-router-dom';
+import { useSettingsStore } from '../store/settingsStore';
+import type { OpeningHoursSlot } from '../api/settings';
 
-const HERO_IMG =
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuAD9rx8geOJRef5QLjWW2l0oer-7bcZ50J1AMWEujZz1y4hdSXDdZKjApVhsHgIEiM_99GQgfTvMTaGEdKzGuUIqwEJFRBP0OYqB8RxPJsDPjBJMPToAxgzEvphHPvXcVyKiE-BWNcVZ0zm957syKRqqmaAPwI62u15125z70rmqyC6Gh4M2A8P5AQwzUKpon6QC6FViTdHeTdCj17n_4r6EZ70OU8T6LLdvBSuUgONZYc-cwiUNUn5Fr8EHQHipr9z5aas-cEzK4Q';
+const DAY_LABELS: Record<OpeningHoursSlot['day'], string> = {
+  monday: 'Lun', tuesday: 'Mar', wednesday: 'Mer',
+  thursday: 'Jeu', friday: 'Ven', saturday: 'Sam', sunday: 'Dim',
+};
 
-// ── Données (placeholders — à remplacer par les vraies infos) ──────────────────
+function formatOpeningHours(slots: OpeningHoursSlot[]): string {
+  if (!slots.length) return '';
+  const grouped: { label: string; hours: string }[] = [];
+  for (const slot of slots) {
+    const hours = `${slot.open.replace(':00', 'h')}–${slot.close.replace(':00', 'h')}`;
+    const last = grouped[grouped.length - 1];
+    if (last && last.hours === hours) {
+      const parts = last.label.split('–');
+      last.label = `${parts[0]}–${DAY_LABELS[slot.day]}`;
+    } else {
+      grouped.push({ label: DAY_LABELS[slot.day], hours });
+    }
+  }
+  return grouped.map((g) => `${g.label} : ${g.hours}`).join(' · ');
+}
 
-const IMPACT_STATS = [
-  { value: '7+', label: 'Années au service des familles béninoises' },
-  { value: '40+', label: 'Agriculteurs locaux partenaires certifiés bio' },
-  { value: '12', label: 'Villes couvertes au Bénin' },
-  { value: '8 000+', label: 'Familles qui nous font confiance' },
-];
+function isOpenNow(slots: OpeningHoursSlot[]): boolean {
+  const now = new Date();
+  const day = now.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase() as OpeningHoursSlot['day'];
+  const slot = slots.find((s) => s.day === day);
+  if (!slot) return false;
+  const [oh, om] = slot.open.split(':').map(Number);
+  const [ch, cm] = slot.close.split(':').map(Number);
+  const minutes = now.getHours() * 60 + now.getMinutes();
+  return minutes >= oh * 60 + om && minutes < ch * 60 + cm;
+}
+
+const HERO_IMG = '/famille-rimaman.jpeg';
+
 
 const PROCESS_STEPS = [
   {
@@ -55,13 +80,24 @@ const RSE_ITEMS = [
   {
     icon: 'recycling',
     title: 'Emballage responsable',
-    text: 'Conditionnement minimal et hermétique. Projet de transition vers un emballage 100 % recyclable en cours pour 2025.',
+    text: 'Conditionnement minimal et hermétique. Transition vers un emballage 100 % recyclable en cours.',
   },
 ];
 
 // ── Page ───────────────────────────────────────────────────────────────────────
 
 export const About: React.FC = () => {
+  const { contactEmail, contactPhone, companyAddress, openingHours, socialLinks, impactStats } = useSettingsStore(
+    (state) => state.settings,
+  );
+  const openingHoursLabel = useMemo(() => formatOpeningHours(openingHours), [openingHours]);
+  const open = useMemo(() => isOpenNow(openingHours), [openingHours]);
+  const loadSettings = useSettingsStore((state) => state.load);
+
+  useEffect(() => {
+    loadSettings();
+  }, [loadSettings]);
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -69,11 +105,11 @@ export const About: React.FC = () => {
     description: 'Fabricant béninois de farines de riz et manioc 100 % bio, artisanales et sans additifs.',
     foundingDate: '2018',
     foundingLocation: { '@type': 'Place', address: { '@type': 'PostalAddress', addressLocality: 'Cotonou', addressCountry: 'BJ' } },
-    address: { '@type': 'PostalAddress', streetAddress: 'Zone Industrielle de Ganhi', addressLocality: 'Cotonou', addressCountry: 'BJ' },
-    email: 'contact@moulindor.bj',
-    telephone: '+22997000000',
+    address: { '@type': 'PostalAddress', streetAddress: companyAddress, addressLocality: 'Cotonou', addressCountry: 'BJ' },
+    email: contactEmail,
+    telephone: contactPhone,
     url: 'https://rimaman.bj',
-    sameAs: ['https://facebook.com/rimaman', 'https://instagram.com/rimaman'],
+    sameAs: socialLinks.map((s) => s.url),
   };
 
   return (
@@ -193,7 +229,7 @@ export const About: React.FC = () => {
             <h2 className="text-2xl font-headline font-bold text-on-surface">RIMAMAN en chiffres</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {IMPACT_STATS.map((s) => (
+            {impactStats.map((s) => (
               <div
                 key={s.value}
                 className="bg-surface rounded-2xl p-6 border border-outline-variant text-center"
@@ -383,10 +419,10 @@ export const About: React.FC = () => {
             </p>
             <div className="space-y-4">
               {[
-                { icon: 'location_on', label: 'Zone Industrielle de Ganhi, Cotonou, Bénin' },
-                { icon: 'mail', label: 'contact@moulindor.bj' },
-                { icon: 'phone', label: '+229 97 00 00 00' },
-                { icon: 'schedule', label: 'Lun–Ven : 8h–17h · Sam : 8h–13h' },
+                { icon: 'location_on', label: companyAddress },
+                { icon: 'mail', label: contactEmail },
+                { icon: 'phone', label: contactPhone },
+                { icon: 'schedule', label: openingHoursLabel },
               ].map((item) => (
                 <div key={item.icon} className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-surface-container-low rounded-xl flex items-center justify-center flex-shrink-0 border border-outline-variant">
@@ -396,9 +432,17 @@ export const About: React.FC = () => {
                 </div>
               ))}
             </div>
+
+            {openingHours.length > 0 && (
+              <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold w-fit ${open ? 'bg-green-100 text-green-800' : 'bg-error-container text-on-error-container'}`}>
+                <span className={`w-2 h-2 rounded-full ${open ? 'bg-green-500' : 'bg-error'}`} />
+                {open ? 'Ouvert maintenant' : 'Fermé actuellement'}
+              </div>
+            )}
+
             <RouterLink
               to="/contact"
-              className="inline-flex items-center gap-2 text-primary font-bold hover:underline"
+              className="inline-flex items-center gap-2 text-primary font-bold hover:underline ml-4"
             >
               Nous envoyer un message
               <span className="material-symbols-outlined text-sm">arrow_forward</span>

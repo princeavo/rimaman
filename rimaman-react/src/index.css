@@ -252,3 +252,244 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ─────────────────────────────────────────────
+   PRELOADER — Premium RIMAMAN
+   Uses only existing CSS design-system tokens.
+───────────────────────────────────────────── */
+
+@keyframes preloader-logo-in {
+  from {
+    opacity: 0;
+    transform: scale(0.88) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes preloader-tagline-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+    letter-spacing: 0.25em;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    letter-spacing: 0.18em;
+  }
+}
+
+@keyframes preloader-grain-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33%       { transform: translateY(-14px) rotate(8deg); }
+  66%       { transform: translateY(10px) rotate(-6deg); }
+}
+
+@keyframes preloader-progress-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes preloader-bar-fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(var(--bar-scale, 1)); }
+}
+
+/* ── Overlay ── */
+.preloader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(var(--color-background));
+  overflow: hidden;
+  transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+/* ── Exit state (added via JS when done) ── */
+.preloader-overlay.preloader--exit {
+  opacity: 0;
+  transform: scale(1.025);
+  pointer-events: none;
+}
+
+/* ── Decorative grain dots ── */
+.preloader-grain {
+  position: absolute;
+  border-radius: 9999px;
+  opacity: 0.12;
+  pointer-events: none;
+  animation: preloader-grain-float 6s ease-in-out infinite;
+}
+
+.preloader-grain--1 {
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgb(var(--color-primary)) 0%, transparent 70%);
+  top: -6%;
+  right: -4%;
+  animation-delay: 0s;
+  animation-duration: 7s;
+}
+
+.preloader-grain--2 {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgb(var(--color-tertiary)) 0%, transparent 70%);
+  bottom: 5%;
+  left: -3%;
+  animation-delay: -2.5s;
+  animation-duration: 8.5s;
+}
+
+.preloader-grain--3 {
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgb(var(--color-secondary)) 0%, transparent 70%);
+  top: 55%;
+  right: 8%;
+  animation-delay: -4s;
+  animation-duration: 9s;
+}
+
+/* ── Central content block ── */
+.preloader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Logo ── */
+.preloader-logo-wrap {
+  animation: preloader-logo-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.preloader-logo {
+  height: 72px;
+  width: auto;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 4px 16px rgb(var(--color-primary) / 0.15));
+}
+
+@media (max-width: 480px) {
+  .preloader-logo { height: 56px; }
+}
+
+/* ── Tagline ── */
+.preloader-tagline {
+  font-family: "Sora", "Outfit", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--color-on-surface-variant));
+  animation: preloader-tagline-in 0.7s ease-out 0.3s both;
+  margin: 0;
+}
+
+/* ── Progress area ── */
+.preloader-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 260px;
+  animation: preloader-progress-in 0.5s ease-out 0.5s both;
+}
+
+@media (max-width: 480px) {
+  .preloader-progress-wrap { width: 200px; }
+}
+
+/* Percentage counter */
+.preloader-percent {
+  font-family: "Sora", "Outfit", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgb(var(--color-primary));
+  letter-spacing: 0.04em;
+  display: block;
+  text-align: right;
+  width: 100%;
+  transition: none; /* counter updates are handled in JS */
+}
+
+/* Track */
+.preloader-bar-track {
+  width: 100%;
+  height: 2px;
+  background-color: rgb(var(--color-surface-container-high));
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+/* Fill — width driven by inline style from React state */
+.preloader-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--color-primary)) 0%,
+    rgb(var(--color-primary-fixed)) 60%,
+    rgb(var(--color-tertiary)) 100%
+  );
+  transition: width 0.08s linear;
+  will-change: width;
+}
+
+/* ── Bottom domain label ── */
+.preloader-bottom-label {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  color: rgb(var(--color-outline));
+  opacity: 0.6;
+  white-space: nowrap;
+  animation: preloader-progress-in 0.6s ease-out 0.8s both;
+}
+
+/* ── Page reveal (added to #root by JS) ── */
+.preloader-reveal {
+  animation: fade-in 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* ── Accessibility: reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .preloader-overlay,
+  .preloader-overlay.preloader--exit,
+  .preloader-logo-wrap,
+  .preloader-tagline,
+  .preloader-progress-wrap,
+  .preloader-grain,
+  .preloader-bottom-label,
+  .preloader-bar-fill,
+  .preloader-reveal {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    letter-spacing: inherit !important;
+  }
+  /* Still hide the overlay immediately when done */
+  .preloader-overlay.preloader--exit {
+    display: none !important;
+  }
+}

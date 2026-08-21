@@ -12,8 +12,8 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { href: '/admin', icon: 'dashboard', label: 'Tableau de bord' },
   { href: '/admin/media', icon: 'photo_library', label: 'Médiathèque' },
-  { href: '/admin/pages', icon: 'web', label: 'Pages' },
-  { href: '/admin/produits', icon: 'inventory_2', label: 'Produits' },
+{ href: '/admin/produits', icon: 'inventory_2', label: 'Produits' },
+  { href: '/admin/categories-produit', icon: 'category', label: 'Catégories produit' },
   { href: '/admin/recettes', icon: 'restaurant', label: 'Recettes' },
   { href: '/admin/blog', icon: 'article', label: 'Blog' },
   { href: '/admin/faq', icon: 'help', label: 'FAQ' },

@@ -12,19 +12,9 @@ import { TableOfContents, extractHeadings } from '../components/blog/TableOfCont
 import { fetchBlogComments, createBlogComment } from '../api/blogComments';
 import { tiptapToSafeHtml } from '../components/page-builder/tiptap-to-html';
 import { useAsyncData } from '../hooks/useAsyncData';
-import { fetchBlogPostBySlugRaw, fetchBlogPostsRaw } from '../api/blog';
+import { fetchBlogPostBySlugRaw, fetchBlogPostsRaw, richTextToPlainText, estimateReadTime } from '../api/blog';
 import { articleJsonLd } from '../utils/schema';
 
-const WORDS_PER_MINUTE = 200;
-
-function extractText(node: Record<string, unknown>): string {
-  if (node.type === 'text') return String(node.text ?? '');
-  return ((node.content ?? []) as Record<string, unknown>[]).map(extractText).join(' ');
-}
-
-function countWords(doc: Record<string, unknown>): number {
-  return extractText(doc).split(/\s+/).filter(Boolean).length;
-}
 
 
 export const BlogPost: React.FC = () => {
@@ -72,9 +62,8 @@ export const BlogPost: React.FC = () => {
     );
   }
 
-  const contentDoc = post.content as unknown as Record<string, unknown>;
-  const wordCount = countWords(contentDoc);
-  const readTime = `${Math.max(1, Math.round(wordCount / WORDS_PER_MINUTE))} min`;
+
+  const readTime = estimateReadTime(richTextToPlainText(post.content));
 
   const currentIndex = sortedPosts.findIndex((p) => p.id === post.id);
   const prevPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;

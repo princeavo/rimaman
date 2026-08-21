@@ -12,7 +12,8 @@ interface ProductCardProps {
   featured?: boolean;
 }
 
-function getServings(weight: string): number | null {
+/** Estimation de secours quand Product.servings n'est pas renseigné en DB. */
+function estimateServings(weight: string): number | null {
   const lower = weight.toLowerCase().trim();
   const n = parseFloat(lower);
   if (isNaN(n)) return null;
@@ -20,10 +21,19 @@ function getServings(weight: string): number | null {
   return Math.round(kg * 6);
 }
 
+function getServings(product: Product): number | null {
+  return product.servings ?? estimateServings(product.weight);
+}
+
+/** Lien vers la page détail : slug si disponible, UUID en fallback. */
+function productPath(product: Product): string {
+  return `/nos-farines/${product.slug ?? product.id}`;
+}
+
 export const ProductCard: React.FC<ProductCardProps> = ({ product, featured = false }) => {
-  const addItem = useCartStore(state => state.addItem);
-  const showToast = useToastStore(state => state.showToast);
-  const servings = getServings(product.weight);
+  const addItem = useCartStore((state) => state.addItem);
+  const showToast = useToastStore((state) => state.showToast);
+  const servings = getServings(product);
   const pricePerPerson = servings ? Math.round(product.price / servings) : null;
 
   const handleAddToCart = () => {
@@ -35,7 +45,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, featured = fa
   if (featured) {
     return (
       <div className="flex flex-col lg:flex-row bg-surface rounded-2xl overflow-hidden border border-outline-variant max-w-3xl w-full">
-        <Link to={`/nos-farines/${product.id}`} className="lg:w-1/2 relative block">
+        <Link to={productPath(product)} className="lg:w-1/2 relative block">
           <img
             className="w-full h-full object-cover"
             alt={product.name}
@@ -49,21 +59,26 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, featured = fa
           )}
         </Link>
         <div className="lg:w-1/2 p-10 flex flex-col justify-center">
-          <Link to={`/nos-farines/${product.id}`} className="group">
+          <Link to={productPath(product)} className="group">
             <h3 className="text-2xl font-bold text-on-surface font-headline mb-4 group-hover:text-primary transition-colors">
               {product.name}
             </h3>
           </Link>
           <p className="text-on-surface-variant mb-6 leading-relaxed">{product.description}</p>
-          <div className="flex items-center gap-2 mb-6">
-            <Icon name="group" className="text-secondary" />
-            <span className="text-on-surface-variant text-sm font-medium">
-              {product.weight} rassasie au moins <strong className="text-primary">6 personnes</strong>
-            </span>
-          </div>
+          {servings && (
+            <div className="flex items-center gap-2 mb-6">
+              <Icon name="group" className="text-secondary" />
+              <span className="text-on-surface-variant text-sm font-medium">
+                {product.weight} rassasie au moins{' '}
+                <strong className="text-primary">{servings} personnes</strong>
+              </span>
+            </div>
+          )}
           <div className="flex items-center justify-between mt-auto">
             <div>
-              <span className="text-2xl font-bold text-on-surface">{product.price.toLocaleString()} FCFA</span>
+              <span className="text-2xl font-bold text-on-surface">
+                {product.price.toLocaleString()} FCFA
+              </span>
               {pricePerPerson && (
                 <p className="text-xs text-on-surface-variant mt-0.5">
                   soit ~{pricePerPerson} FCFA / pers.
@@ -87,7 +102,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, featured = fa
 
   return (
     <article className="bg-surface-container-low rounded-2xl border border-outline-variant hover-lift overflow-hidden flex flex-col">
-      <Link to={`/nos-farines/${product.id}`} className="block flex-1">
+      <Link to={productPath(product)} className="block flex-1">
         <div className="relative h-48 overflow-hidden">
           <img
             alt={product.name}
@@ -105,9 +120,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, featured = fa
           )}
         </div>
         <div className="p-6 pb-4">
-          <h4 className="font-headline text-xl font-bold mb-2 text-on-surface">
-            {product.name}
-          </h4>
+          <h4 className="font-headline text-xl font-bold mb-2 text-on-surface">{product.name}</h4>
           <p className="text-on-surface-variant text-sm leading-relaxed mb-3 line-clamp-2">
             {product.description}
           </p>
@@ -123,7 +136,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, featured = fa
       </Link>
       <div className="px-6 pb-6 pt-3 flex items-center justify-between border-t border-outline-variant mt-auto">
         <div>
-          <span className="text-xl font-bold text-on-surface">{product.price.toLocaleString()} FCFA</span>
+          <span className="text-xl font-bold text-on-surface">
+            {product.price.toLocaleString()} FCFA
+          </span>
           {pricePerPerson && (
             <p className="text-xs text-on-surface-variant">~{pricePerPerson} FCFA / pers.</p>
           )}

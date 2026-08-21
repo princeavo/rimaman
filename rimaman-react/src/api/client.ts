@@ -47,7 +47,7 @@ async function request<T>(path: string, options: RequestOptions = {}, isRetry = 
     body: options.body ? JSON.stringify(options.body) : undefined,
   });
 
-  if (response.status === 401 && !isRetry) {
+  if (response.status === 401 && !isRetry && path !== '/auth/login') {
     const refreshed = await tryRefresh();
     if (refreshed) {
       return request<T>(path, options, true);
@@ -58,9 +58,24 @@ async function request<T>(path: string, options: RequestOptions = {}, isRetry = 
 
   if (!response.ok) {
     const payload = await response.json().catch(() => null);
-    const message =
-      (Array.isArray(payload?.message) ? payload.message.join(', ') : payload?.message) ??
-      `Erreur ${response.status}`;
+    let extractedMessage: string | undefined;
+
+    if (payload?.message) {
+      if (typeof payload.message === 'string') {
+        extractedMessage = payload.message;
+      } else if (Array.isArray(payload.message)) {
+        extractedMessage = payload.message.join(', ');
+      } else if (typeof payload.message === 'object' && payload.message !== null) {
+        const nestedMsg = payload.message.message;
+        if (typeof nestedMsg === 'string') {
+          extractedMessage = nestedMsg;
+        } else if (Array.isArray(nestedMsg)) {
+          extractedMessage = nestedMsg.join(', ');
+        }
+      }
+    }
+
+    const message = extractedMessage ?? `Erreur ${response.status}`;
     throw new ApiError(response.status, message);
   }
 
